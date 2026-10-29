@@ -71,5 +71,7 @@ absence of timed Home actions, held-direction suppression and guard release.
 
 Only Jellyfin is installed for the current hardware tests. Two-application cycling
 and input isolation for Moonlight still require its own adapter and acceptance
-when Sunshine is available. Playback pause/audio and display-mode policy are
-separate future work; these shortcuts currently change workspace focus only.
+when Sunshine is available. These shortcuts change workspace focus only; the
+separate Jellyfin playback policy pauses a film on focus loss and leaves manual
+resume to the user. See [media acceptance](media-playback.md). Broader audio and
+display-mode policy remain future work.

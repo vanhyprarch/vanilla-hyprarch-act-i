@@ -55,10 +55,32 @@ MPV A/V difference. The precise jump distance was not measured.
 ## Remaining checks
 
 - Other subtitle formats and broader subtitle synchronization acceptance.
-- Pause/audio policy when changing workspace (not automatic yet).
 - 4K SDR and additional codecs, then HDR → SDR behavior on the real TV.
 - Refresh matching and display-mode restoration in M4.
 - Audio channel mapping and passthrough remain separate investigations.
 
 Detailed samples and private application logs stay outside the repository.
 Do not commit server addresses, media paths, authentication or personal titles.
+
+## Leaving Jellyfin during a film
+
+Act I's `act_i_playback_policy.lua` observes the MPV window's focus. A real selected
+video track pauses when the window loses focus, including switching to Home or
+another app workspace. Returning never resumes playback automatically; the user
+chooses Resume. An already-paused film remains paused. Video loaded while the
+window is already in the background is also paused on the file-loaded event.
+
+Idle library backgrounds, still images, album art and audio-only playback are
+excluded. Their broader background-audio policy remains separate work. The
+behavior is specific to the initial single-output HTPC session; it is not a
+claim about multi-monitor focus or remote Moonlight game pausing.
+
+The adapter installs this managed MPV script alongside the input guard, without
+changing the client's saved decoder preference or face-button mappings. Unit
+checks cover focus loss, no automatic resume, already-paused content and the
+idle/audio/image exclusions.
+
+The owner physically verified pause on switching to Home, continued pause with
+silent audio after returning, and a correct manual resume. MPV confirmed a fixed
+playback position during the paused return and VA-API still active after resume.
+The same client stayed open; no reload or decoder preference change was required.

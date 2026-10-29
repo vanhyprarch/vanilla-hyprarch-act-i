@@ -4,7 +4,9 @@
 application adapter: a stable Wayland window class and a profile initializer that
 preserves existing Jellyfin JSON settings and credentials. The managed
 `mpv/act_i_input_guard.lua` and private MPV IPC option isolate background input
-and reserve Act I's Home combinations without remapping native A/B controls. An adapter exposes `WINDOW_CLASS`
+and reserve Act I's Home combinations without remapping native A/B controls. `mpv/act_i_playback_policy.lua` pauses real video on focus loss and never
+resumes it automatically, excluding idle library images and audio-only playback.
+An adapter exposes `WINDOW_CLASS`
 and `prepare_profile(flatpak_id)` to the shared application session helper.
 
 Playback metadata, HDR/refresh requests and the Moonlight adapter remain later

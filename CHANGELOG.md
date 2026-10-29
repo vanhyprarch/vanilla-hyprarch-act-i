@@ -55,3 +55,10 @@ Application adapters and the full-system installer remain planned.
   sample, visible HDMI audio/video, sampled zero drops and controller pause/resume.
   Record SRT visibility, seek recovery, the tested path and remaining media
   acceptance limits.
+
+- Add the owner-selected Jellyfin video policy: pause when leaving the window
+  and retain pause on return until the user resumes. Preserve already-paused
+  content and exclude idle backgrounds, still images and audio-only playback.
+
+- Physically verify automatic pause on switching to Home, fixed paused position
+  after re-entry and successful manual resume with VA-API still active.

@@ -63,7 +63,9 @@ Progress:
 - [x] Confirm active VA-API surfaces, zero drops over the sampled interval and HDMI audio.
 - [x] Verify controller pause/resume with position retained and VA-API still active.
 - [x] Verify SRT visibility and video/decoder recovery after a forward seek.
-- [ ] Verify workspace playback policy, other subtitles and additional formats.
+- [x] Verify automatic video pause on leaving Jellyfin, retained pause on return
+  and user-controlled resume with VA-API still active.
+- [ ] Verify other subtitles and additional formats.
 - [ ] Verify 4K SDR and HDR/SDR transitions on the actual display.
 
 See [media acceptance](media-playback.md). M3 remains incomplete.

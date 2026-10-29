@@ -43,8 +43,9 @@ def prepare_profile(flatpak_id, home=None):
         raise ValueError("Existing MPV IPC server must be reviewed before enabling Act I routing")
     scripts = folder / "scripts"
     scripts.mkdir(exist_ok=True, mode=0o700)
-    source = Path(__file__).parent / "mpv/act_i_input_guard.lua"
-    shutil.copyfile(source, scripts / source.name)
+    for name in ("act_i_input_guard.lua", "act_i_playback_policy.lua"):
+        source = Path(__file__).parent / "mpv" / name
+        shutil.copyfile(source, scripts / name)
     if not existing:
         mpv.write_text(text.rstrip() + "\n" + setting + "\n")
     return folder
