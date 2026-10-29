@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0-only
 """Jellyfin profile setup; existing preferences and credentials are preserved."""
 import json
+import socket
+import shutil
 from pathlib import Path
 
 WINDOW_CLASS = "org.vanhyprarch.acti.jellyfin"
@@ -33,4 +35,30 @@ def prepare_profile(flatpak_id, home=None):
               if line.strip().startswith("wayland-app-id=")]
     if not values or values[-1] != WINDOW_CLASS:
         raise ValueError("Jellyfin mpv.conf needs wayland-app-id=" + WINDOW_CLASS)
+    socket_path = folder / "act-i-ipc.sock"
+    text = mpv.read_text()
+    setting = "input-ipc-server=" + str(socket_path)
+    existing = [line for line in text.splitlines() if line.strip().startswith("input-ipc-server=")]
+    if existing and existing[-1] != setting:
+        raise ValueError("Existing MPV IPC server must be reviewed before enabling Act I routing")
+    scripts = folder / "scripts"
+    scripts.mkdir(exist_ok=True, mode=0o700)
+    source = Path(__file__).parent / "mpv/act_i_input_guard.lua"
+    shutil.copyfile(source, scripts / source.name)
+    if not existing:
+        mpv.write_text(text.rstrip() + "\n" + setting + "\n")
     return folder
+
+
+def route_input(flatpak_id, reserved, neutral):
+    path = Path.home() / ".var/app" / flatpak_id / "config/jellyfin-mpv-shim/act-i-ipc.sock"
+    command = {"command": ["script-message-to", "act_i_input_guard", "act-i-routing",
+                           "yes" if reserved else "no", "yes" if neutral else "no"]}
+    try:
+        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
+            connection.settimeout(0.25)
+            connection.connect(str(path))
+            connection.sendall((json.dumps(command) + "\n").encode())
+    except OSError:
+        return False
+    return True

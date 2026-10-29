@@ -6,6 +6,7 @@ All scripts run as the normal HTPC user on the dedicated target.
 - `start-home`: launch the Quickshell configuration from this checkout.
 - `gamepad-events`: private focus-aware input bridge owned by Quickshell.
 - `install-apps`: explicitly install selected reviewed per-user Flatpaks.
+- `workspace-action`: focus Home or cycle already-open application workspaces.
 - `app-session`: launch/restore Jellyfin and observe window lifecycle through IPC.
 
 See [session usage](../docs/manual-session.md), [gamepad behavior](../docs/gamepad.md)

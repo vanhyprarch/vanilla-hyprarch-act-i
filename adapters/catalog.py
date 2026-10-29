@@ -15,6 +15,7 @@ class Application:
     subtitle: str
     flatpak_id: str
     workspace: int
+    window_class: str = ""
 
 
 def load_catalog(path: Path = CATALOG_PATH) -> dict[str, Application]:
@@ -29,6 +30,8 @@ def load_catalog(path: Path = CATALOG_PATH) -> dict[str, Application]:
             raise ValueError("Invalid application name")
         if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]*(?:\.[A-Za-z0-9_-]+){2,}", app.flatpak_id):
             raise ValueError("Invalid Flatpak application ID")
+        if app.window_class and not re.fullmatch(r"[A-Za-z0-9_.-]+", app.window_class):
+            raise ValueError("Invalid application window class")
         if type(app.workspace) is not int or app.workspace < 2:
             raise ValueError("Application workspaces must be integers starting at 2")
         if app.id in result or app.workspace in workspaces:

@@ -13,7 +13,9 @@ Pair and trust the intended controller through BlueZ outside the repository;
 never commit adapter addresses, controller addresses or pairing data.
 
 Quickshell owns `scripts/gamepad-events`, an unprivileged Python child with
-newline-delimited JSON over standard input/output. It discovers only udev
+newline-delimited JSON over standard input/output. A bounded asynchronous routing
+worker sends physical Home/release state to the Jellyfin MPV guard through its
+private IPC socket, independently of Quickshell's launch-helper lifecycle. It discovers only udev
 `ID_INPUT_JOYSTICK=1` event devices, monitors hotplug and uses the active local
 session's device ACLs. It never grabs the device or injects keyboard events.
 Do not add the HTPC account to the broad `input` group or run the reader as root.
@@ -25,9 +27,12 @@ stick input uses a 35 percent dead zone. A/B activate once per press.
 
 Holding Home (`BTN_MODE`) for five seconds requests workspace 1 once, including
 when an application has focus. Release it before the shortcut can fire again.
-Short presses do not change workspace. Input remains visible to the application:
-the start of a long press can also reach Moonlight and the remote PC. Moonlight
-behavior remains a hardware acceptance task when Sunshine is available. The
+Home + D-pad left/right cycles already-open application workspaces once per Home
+press and cancels the long-hold timer. Jellyfin now has an MPV input guard that
+reserves Guide and blocks background/held-transition input, preserving its native
+face-button bindings. See [workspace navigation](workspace-navigation.md).
+Moonlight input isolation and forwarding remain separate acceptance work when
+Sunshine is available. The
 L+R+Start+Select Moonlight disconnect chord is not assigned by Act I.
 
 The reader exits when the shell closes its input pipe. Disconnecting a controller

@@ -60,6 +60,38 @@ class NavigationTests(unittest.TestCase):
         self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_X, 128, 3))
         self.assertIsNone(pad.repeat(4))
 
+    def test_home_right_is_one_shot_and_cancels_hold(self):
+        pad = self.pad()
+        pad.set_focus(False)
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 1), "app-next")
+        self.assertIsNone(pad.repeat(6))
+        pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 7)
+        self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_HAT0X, -1, 8))
+        pad.feed(E.EV_KEY, E.BTN_MODE, 0, 9)
+        pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 10)
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 11)
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, -1, 12), "app-previous")
+
+    def test_reserved_home_suppresses_regular_home_navigation(self):
+        pad = self.pad()
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
+        self.assertIsNone(pad.feed(E.EV_KEY, E.BTN_EAST, 1, 1))
+        self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_Y, 255, 2))
+        self.assertIsNone(pad.repeat(3))
+
+    def test_neutral_tracks_buttons_and_right_stick(self):
+        pad = self.pad()
+        self.assertTrue(pad.neutral)
+        pad.feed(E.EV_KEY, E.BTN_SOUTH, 1, 0)
+        self.assertFalse(pad.neutral)
+        pad.feed(E.EV_KEY, E.BTN_SOUTH, 0, 1)
+        self.assertTrue(pad.neutral)
+        pad.feed(E.EV_ABS, E.ABS_RX, 32767, 2)
+        self.assertFalse(pad.neutral)
+        pad.feed(E.EV_ABS, E.ABS_RX, 0, 3)
+        self.assertTrue(pad.neutral)
+
     def test_short_home_press_does_not_return_home(self):
         pad = self.pad()
         self.assertIsNone(pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0))

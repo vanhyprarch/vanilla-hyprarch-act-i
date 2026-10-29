@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0-only
+import argparse
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from adapters.catalog import load_catalog
+from services.session.application import Hyprland
+from services.session.workspaces import target_workspace
+
+parser = argparse.ArgumentParser(description='Focus Home or another already-open application.')
+parser.add_argument('action', choices=['home', 'previous', 'next'])
+args = parser.parse_args()
+hyprland = Hyprland()
+current = hyprland.query('activeworkspace').get('id')
+target = target_workspace(args.action, load_catalog().values(), hyprland.query('clients'), current)
+if target != current:
+    hyprland.dispatch(f'hl.dsp.focus({{workspace={target}}})')

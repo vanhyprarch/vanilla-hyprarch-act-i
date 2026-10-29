@@ -40,7 +40,9 @@ An initial launch has a 30-second window timeout with a return-to-Home fallback.
 
 The profile uses the application's private Flatpak configuration directory.
 New profiles enable the upstream gamepad UI and fullscreen browser; existing
-preferences and credentials are preserved byte-for-byte by the adapter. MPV's
+Jellyfin JSON preferences and credentials are preserved byte-for-byte by the
+adapter. The profile also receives a managed MPV input guard and private local
+IPC option; a conflicting existing IPC server is reported instead of overwritten. MPV's
 `wayland-app-id=org.vanhyprarch.acti.jellyfin` identifies the managed window.
 A conflicting existing MPV profile is reported instead of being overwritten.
 Hyprland places that class on workspace 2 and keeps its compositor state
@@ -69,3 +71,8 @@ the app window and automatically restored workspace 1. Bluetooth reconnect still
 needs an acceptance check.
 This does not validate video playback, HDR, hardware decoding, refresh matching,
 Moonlight input forwarding or remote-game Home-button behavior.
+
+Workspace-only return now preserves a film detail page through both tile re-entry
+and Home + D-pad right; Home + D-pad left and normal input after return also passed
+owner-observed checks. See [workspace navigation](workspace-navigation.md) for the
+input isolation fix and the remaining Moonlight limitations.

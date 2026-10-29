@@ -169,8 +169,11 @@ FocusScope {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
     anchors.bottomMargin: 54 * home.unit
+    width: parent.width - 144 * home.unit
+    horizontalAlignment: Text.AlignHCenter
+    wrapMode: Text.WordWrap
     text: home.gamepadCount > 0
-      ? "D-pad / Stick   Choose       A   Select       B   Back       Hold Home 5s"
+      ? "D-pad / Stick   Choose       A   Select       B   Back       Home + \u2190/\u2192   Switch apps       Hold Home 5s"
       : "\u2190  \u2192   Choose       Enter   Select       Esc   Back"
     color: "#a7bbc9"
     font.family: "DejaVu Sans"

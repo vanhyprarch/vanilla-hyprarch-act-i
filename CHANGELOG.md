@@ -36,3 +36,10 @@ Application adapters and the full-system installer remain planned.
 - Verify Jellyfin library navigation and retained login after a cold client launch.
 - Leave the existing Jellyfin face-button convention unchanged; Home/Jellyfin
   consistency remains an owner decision. Moonlight tests await a Sunshine host.
+
+- Add Home + D-pad left/right to cycle already-open application workspaces,
+  skipping closed apps and canceling the long Home hold after a chord.
+- Isolate Jellyfin's native SDL input in background workspaces and during reserved
+  Home gestures through a managed MPV script, preserving existing A/B bindings.
+- Verify film detail-page preservation through tile and shortcut re-entry,
+  unchanged process identity, and normal native controls after return.

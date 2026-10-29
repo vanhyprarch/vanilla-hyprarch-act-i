@@ -44,6 +44,8 @@ Progress:
 - [x] Verify Jellyfin MPV Shim 3.3.0 library browsing and gamepad navigation.
 - [x] Verify the owner-selected five-second Home hold from Jellyfin.
 - [x] Accept Jellyfin tile launch, fullscreen re-entry and close/recovery.
+- [x] Preserve film detail pages across Home/tile and Home+D-pad transitions.
+- [x] Verify native Jellyfin controls still work after re-entry.
 - [ ] Verify Bluetooth disconnect/reconnect and additional controller families.
 - [ ] Validate Moonlight when a Sunshine host is available.
 

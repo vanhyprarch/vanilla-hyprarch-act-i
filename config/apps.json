@@ -6,14 +6,16 @@
       "name": "Jellyfin",
       "subtitle": "Movies & series",
       "flatpak_id": "com.github.iwalton3.jellyfin-mpv-shim",
-      "workspace": 2
+      "workspace": 2,
+      "window_class": "org.vanhyprarch.acti.jellyfin"
     },
     {
       "id": "moonlight",
       "name": "Moonlight",
       "subtitle": "Play from your PC",
       "flatpak_id": "com.moonlight_stream.Moonlight",
-      "workspace": 3
+      "workspace": 3,
+      "window_class": "com.moonlight_stream.Moonlight"
     }
   ]
 }

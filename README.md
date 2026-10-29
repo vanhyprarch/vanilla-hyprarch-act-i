@@ -21,7 +21,10 @@ M2 is in progress: Home navigation is physically verified with a GuliKit KK3 Max
 in Switch mode over Bluetooth. A five-second Home hold is physically verified
 from the Jellyfin library. See [gamepad behavior](docs/gamepad.md) and the explicit
 [Flatpak installer](docs/applications.md). Jellyfin library browsing, tile re-entry, cold launch and return on close are
-verified on the target. HDR and refresh switching remain planned. Moonlight testing is deferred
+verified on the target. Workspace switching now preserves a film detail page,
+with Home + D-pad left/right shortcuts and focus-isolated Jellyfin input.
+See [workspace controls](docs/workspace-navigation.md). HDR and refresh switching
+remain planned. Moonlight testing is deferred
 until a Sunshine host is available. See [manual session usage](docs/manual-session.md).
 
 All source, Git operations, builds and runtime tests belong on the dedicated test

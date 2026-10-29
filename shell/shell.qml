@@ -8,6 +8,11 @@ ShellRoot {
   id: root
   readonly property bool homeFocused: home.Window.active
   onHomeFocusedChanged: sendFocus()
+  function changeWorkspace(action) {
+    if (workspaceAction.running) return;
+    workspaceAction.command = [Quickshell.env("ACT_I_REPO_DIR") + "/scripts/workspace-action", action];
+    workspaceAction.running = true;
+  }
   function sendFocus() {
     if (gamepad.running) {
       gamepad.write(JSON.stringify({type: "focus", focused: root.homeFocused}) + "\n");
@@ -25,7 +30,9 @@ ShellRoot {
           const message = JSON.parse(data);
           if (message.type === "devices") home.gamepadCount = message.count;
           else if (message.type === "action") {
-            if (message.action === "home") returnHome.running = true;
+            if (message.action === "home") root.changeWorkspace("home");
+            else if (message.action === "app-next") root.changeWorkspace("next");
+            else if (message.action === "app-previous") root.changeWorkspace("previous");
             else if (root.homeFocused) home.navigate(message.action);
           }
         } catch (error) { console.warn("Invalid gamepad event:", error); }
@@ -38,8 +45,7 @@ ShellRoot {
     }
   }
   Process {
-    id: returnHome
-    command: ["hyprctl", "dispatch", "hl.dsp.focus({workspace=1})"]
+    id: workspaceAction
     stdout: StdioCollector {}
     stderr: SplitParser { onRead: data => console.warn(data) }
   }
