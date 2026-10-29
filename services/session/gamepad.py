@@ -59,7 +59,7 @@ class Navigation:
             self.raw_axes[code] = value
         if event_type != E.EV_ABS or code not in (E.ABS_X, E.ABS_Y, E.ABS_HAT0X, E.ABS_HAT0Y):
             return None
-        previous_hat = self.axes.get(E.ABS_HAT0X, 0)
+        previous_hat = self.axes.get(code, 0)
         self.axes[code] = self.axis_direction(code, value)
         direction = next((self.axes.get(c, 0) for c in
                           (E.ABS_HAT0X, E.ABS_HAT0Y, E.ABS_X, E.ABS_Y)
@@ -67,9 +67,11 @@ class Navigation:
         if E.BTN_MODE in self.pressed:
             self.direction = direction
             self.next_repeat = None
-            # Each fresh horizontal press is independent of Home's lifetime.
-            if code == E.ABS_HAT0X and value and value != previous_hat:
+            # One action per fresh cardinal click; ignore diagonal close presses.
+            if code == E.ABS_HAT0X and value and value != previous_hat and not self.axes.get(E.ABS_HAT0Y, 0):
                 return "app-next" if value > 0 else "app-previous"
+            if code == E.ABS_HAT0Y and value == 1 and previous_hat != 1 and not self.axes.get(E.ABS_HAT0X, 0):
+                return "app-close"
             return None
         if direction == self.direction:
             return None

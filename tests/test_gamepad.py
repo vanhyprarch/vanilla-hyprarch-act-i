@@ -101,6 +101,27 @@ class NavigationTests(unittest.TestCase):
         pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 4)
         self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 5), "next")
 
+    def test_home_down_closes_once_per_fresh_click(self):
+        pad = self.pad()
+        pad.set_focus(False)
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0Y, 1, 1), "app-close")
+        self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_HAT0Y, 1, 2))
+        self.assertIsNone(pad.repeat(30))
+        pad.feed(E.EV_ABS, E.ABS_HAT0Y, 0, 31)
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0Y, 1, 32), "app-close")
+
+    def test_diagonal_and_stick_down_do_not_close(self):
+        pad = self.pad()
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
+        self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_Y, 255, 1))
+        pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 2)
+        self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_HAT0Y, 1, 3))
+
+    def test_down_without_home_is_ordinary_navigation(self):
+        pad = self.pad()
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0Y, 1, 0), "next")
+
     def test_reserved_home_suppresses_regular_home_navigation(self):
         pad = self.pad()
         pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)

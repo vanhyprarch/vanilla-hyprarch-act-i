@@ -4,6 +4,7 @@
 | --- | --- |
 | Hold Home and click D-pad left | Focus the previous workspace (Home or an open app) |
 | Hold Home and click D-pad right | Focus the next workspace (Home or an open app) |
+| Hold Home and click D-pad down | Request normal close of the focused app window, then return Home |
 | Select an application tile | Focus its existing window, or launch it if closed |
 
 Keep Home pressed for as many workspace changes as needed. Each new D-pad click
@@ -75,3 +76,21 @@ when Sunshine is available. These shortcuts change workspace focus only; the
 separate Jellyfin playback policy pauses a film on focus loss and leaves manual
 resume to the user. See [media acceptance](media-playback.md). Broader audio and
 display-mode policy remain future work.
+
+## Closing the focused application
+
+Home + D-pad down uses Hyprland's graceful `hl.dsp.window.close` dispatcher, the
+same action as the desktop's Super+Q/W bindings. It is independent of the reviewed
+application catalog and does not use `kill` or a Flatpak-specific termination.
+The inspected window address is pinned to avoid closing a different window if
+focus changes while the command is dispatched. Home/workspace 1 is protected.
+
+One fresh cardinal down click sends one request, with no auto-repeat and no Act I
+confirmation. Diagonal presses do not close a window. Close shares the serialized
+workspace action queue. Act I returns Home if still on the closing workspace.
+Applications retain their native close semantics: a multi-window app can keep
+other windows open, or an app can present its own save prompt/refuse closure.
+
+The owner physically verified closing Jellyfin, closing an independent Qt QML
+window outside the app catalog, and protection of the Home. The Qt fixture is
+`tests/fixtures/CloseWindow.qml`; no additional application installation is needed.

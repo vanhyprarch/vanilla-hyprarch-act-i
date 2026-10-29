@@ -8,11 +8,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from adapters.catalog import load_catalog
 from services.session.application import Hyprland
 from services.session.workspaces import target_workspace
+from services.session.window_actions import close_active_window
 
 parser = argparse.ArgumentParser(description='Cycle Home and already-open applications without launching them.')
-parser.add_argument('action', choices=['home', 'previous', 'next'])
+parser.add_argument('action', choices=['home', 'previous', 'next', 'close'])
 args = parser.parse_args()
 hyprland = Hyprland()
+if args.action == 'close':
+    close_active_window(hyprland)
+    sys.exit(0)
 current = hyprland.query('activeworkspace').get('id')
 target = target_workspace(args.action, load_catalog().values(), hyprland.query('clients'), current)
 if target != current:

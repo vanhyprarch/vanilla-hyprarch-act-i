@@ -40,6 +40,7 @@ ShellRoot {
           else if (message.type === "action") {
             if (message.action === "app-next") root.changeWorkspace("next");
             else if (message.action === "app-previous") root.changeWorkspace("previous");
+            else if (message.action === "app-close") root.changeWorkspace("close");
             else if (root.homeFocused) home.navigate(message.action);
           }
         } catch (error) { console.warn("Invalid gamepad event:", error); }

@@ -25,3 +25,7 @@ multi-app Moonlight acceptance remains pending.
 
 The playback-policy Lua harness checks automatic pause on video focus loss,
 manual-only resume, already-paused content and idle/audio/image exclusions.
+
+Close-action tests cover catalog-independent graceful closing, pinned targeting,
+Home protection, no target, cardinal-only Down clicks and no held auto-repeat.
+The Qt fixture supports manual compositor-level acceptance outside Jellyfin.

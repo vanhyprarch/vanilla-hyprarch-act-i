@@ -62,3 +62,7 @@ Application adapters and the full-system installer remain planned.
 
 - Physically verify automatic pause on switching to Home, fixed paused position
   after re-entry and successful manual resume with VA-API still active.
+
+- Add Home + D-pad Down using the same graceful window-close dispatcher as the
+  desktop Super+Q/W shortcuts, without catalog dependence or Act I confirmation.
+  Verify Jellyfin, an independent Qt app and launcher protection on hardware.
