@@ -19,3 +19,6 @@ Application adapters, automatic login and the installer remain unimplemented.
   end-to-end operation remains unverified.
 - Publish the baseline to the separate public GitHub repository directly from T8.
 - Verify repository-scoped SSH authentication and matching local/remote commits.
+- Verify manual Home display, keyboard navigation, console exit/restart and basic
+  HDMI stereo output with owner-observed hardware checks.
+- Add an unapplied greetd template for the next automatic-start increment.

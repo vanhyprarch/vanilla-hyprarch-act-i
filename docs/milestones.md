@@ -25,7 +25,7 @@ path. Add automatic login and reboot testing only with explicit authorization.
 Progress:
 - [x] Implement the keyboard-first Home, manual session scripts and isolated config.
 - [x] Validate keyboard behavior, offscreen shell loading and config syntax.
-- [ ] Verify the actual display, keyboard, audio and console recovery.
+- [x] Verify manual Home display, keyboard input, basic HDMI audio and console recovery.
 - [ ] Implement and test approved automatic login and boot recovery.
 
 Acceptance: Home appears reliably after approved boot testing; a failed graphical

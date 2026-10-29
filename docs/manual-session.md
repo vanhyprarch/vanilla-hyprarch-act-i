@@ -60,3 +60,33 @@ routing. Autologin follows only after that acceptance and owner authorization.
 
 Keep development-machine preparation and raw diagnostic records outside this
 repository. This document describes the project's implementation and usage only.
+
+## Validation status
+
+The manual prototype has passed owner-observed physical checks for Home display,
+arrow/Enter/Esc navigation, exit to the console, restart into Home and a short HDMI
+stereo playback check. These results do not validate application playback, HDR,
+refresh switching, gamepad input or automatic boot.
+
+## Proposed automatic startup
+
+`config/greetd/config.toml.in` is a reviewed starting template, not an applied
+configuration. It requires the official `greetd` and `greetd-agreety` packages.
+The initial session runs the normal user's `scripts/start-session` once per boot.
+When that session ends, the default text greeter provides conventional login to a
+shell, allowing recovery without repeatedly relaunching a broken graphical session.
+
+Activation requires owner authorization, a backup of the installed greetd config,
+review of the packaged service's VT conflict handling, and a boot test. Configure
+only the dedicated target's username and absolute session command. Keep target-
+specific rendered configs and maintenance backups outside the project repository.
+
+If automatic startup must be rolled back from an authorized SSH session:
+
+```sh
+sudo systemctl disable --now greetd.service
+sudo systemctl enable --now getty@tty1.service
+```
+
+Other local text consoles remain the recovery path. Never enable automatic login
+on a production workstation while testing this template.

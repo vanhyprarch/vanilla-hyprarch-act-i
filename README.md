@@ -12,8 +12,9 @@ applications, not a standalone Linux distribution.
 M1 manual-session prototype. A fullscreen Quickshell Home supports keyboard
 selection and setup feedback for Jellyfin and Moonlight. The manual Hyprland
 session uses its own repository configuration and includes a console-exit binding.
-Keyboard behavior tests and an offscreen Quickshell load check pass. Physical
-display, input, audio and session-recovery acceptance are still pending.
+Keyboard behavior tests and an offscreen Quickshell load check pass. The owner
+confirmed physical Home display, keyboard navigation, console exit/restart and
+basic HDMI stereo output. Automatic boot validation remains pending.
 
 Application launching, controller input, automatic login, HDR and refresh switching
 are not implemented yet. See [manual session usage](docs/manual-session.md).
