@@ -99,7 +99,7 @@ class Navigation:
 
 
 class Gamepads:
-    def __init__(self, input_route=None):
+    def __init__(self, input_route=None, desktop_monitor=None):
         self.context = pyudev.Context()
         self.devices = {}
         self.focused = False
@@ -107,6 +107,7 @@ class Gamepads:
         self.tasks = set()
         self.last_routing = None
         self.input_route = input_route
+        self.desktop_monitor = desktop_monitor
         self.routing_queue = asyncio.Queue(maxsize=1)
 
     @staticmethod
@@ -204,6 +205,7 @@ class Gamepads:
         self.scan()
         repeat_task = asyncio.create_task(self.repeat())
         route_task = asyncio.create_task(self.route_input())
+        desktop_task = asyncio.create_task(self.desktop_monitor.run()) if self.desktop_monitor else None
         try:
             while line := await reader.readline():
                 try:
@@ -223,17 +225,27 @@ class Gamepads:
             transport.close()
             repeat_task.cancel()
             route_task.cancel()
+            if desktop_task:
+                desktop_task.cancel()
             for task in tuple(self.tasks):
                 task.cancel()
-            await asyncio.gather(repeat_task, route_task, *self.tasks, return_exceptions=True)
+            pending = [repeat_task, route_task, *self.tasks]
+            if desktop_task:
+                pending.append(desktop_task)
+            await asyncio.gather(*pending, return_exceptions=True)
 
 
 def main():
     try:
         from adapters.catalog import load_catalog
-        from adapters.jellyfin import route_input
-        app = load_catalog()["jellyfin"]
+        from adapters.jellyfin import route_input, route_workspace
+        from services.session.application import Hyprland
+        from services.session.desktop import DesktopMonitor
+        applications = load_catalog()
+        app = applications["jellyfin"]
+        monitor = DesktopMonitor(Hyprland(), applications.values(),
+            lambda workspace: route_workspace(app.flatpak_id, workspace == app.workspace))
         asyncio.run(Gamepads(lambda reserved, neutral:
-            route_input(app.flatpak_id, reserved, neutral)).run())
+            route_input(app.flatpak_id, reserved, neutral), monitor).run())
     except (BrokenPipeError, KeyboardInterrupt):
         pass

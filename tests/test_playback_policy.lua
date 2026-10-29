@@ -1,7 +1,7 @@
 -- SPDX-License-Identifier: GPL-2.0-only
 local properties = {focused=true, ["idle-active"]=false, pause=false,
     ["track-list"]={{type="video", selected=true, albumart=false, image=false}}}
-local observers, events = {}, {}
+local observers, events, messages = {}, {}, {}
 local pauses = 0
 mp = {
     get_property_native=function(key, fallback)
@@ -14,15 +14,16 @@ mp = {
     end,
     observe_property=function(name, _, callback) observers[name]=callback end,
     register_event=function(name, callback) events[name]=callback end,
+    register_script_message=function(name, callback) messages[name]=callback end,
 }
 dofile("adapters/mpv/act_i_playback_policy.lua")
-observers.focused("focused", true)
+messages["act-i-workspace"]("yes")
 assert(not properties.pause and pauses==0, "Focused playback is unchanged")
-observers.focused("focused", false)
+messages["act-i-workspace"]("no")
 assert(properties.pause and pauses==1, "Leaving a video pauses once")
-observers.focused("focused", true)
+messages["act-i-workspace"]("yes")
 assert(properties.pause and pauses==1, "Returning never auto-resumes")
-observers.focused("focused", false)
+messages["act-i-workspace"]("no")
 assert(pauses==1, "Already-paused content is preserved")
 properties.pause=false
 properties["idle-active"]=true
@@ -41,7 +42,8 @@ assert(not properties.pause, "Still-image library backgrounds are excluded")
 properties["track-list"]={{type="video",selected=true}}
 events["file-loaded"]()
 assert(properties.pause and pauses==2, "Video loaded in background starts paused")
-local original=observers.focused
+assert(observers.focused==nil, "Transient window focus does not pause video")
+local original=messages["act-i-workspace"]
 dofile("adapters/mpv/act_i_playback_policy.lua")
-assert(observers.focused==original, "Duplicate activation does not add observers")
-print("PASS: video focus-loss pause, manual-only resume, idle/audio/image exclusions")
+assert(messages["act-i-workspace"]==original, "Duplicate activation does not add observers")
+print("PASS: video workspace-exit pause, manual-only resume, idle/audio/image exclusions")

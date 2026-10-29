@@ -51,15 +51,31 @@ def prepare_profile(flatpak_id, home=None):
     return folder
 
 
-def route_input(flatpak_id, reserved, neutral):
+def _script_message(flatpak_id, script, message, *arguments):
     path = Path.home() / ".var/app" / flatpak_id / "config/jellyfin-mpv-shim/act-i-ipc.sock"
-    command = {"command": ["script-message-to", "act_i_input_guard", "act-i-routing",
-                           "yes" if reserved else "no", "yes" if neutral else "no"]}
+    command = {"command": ["script-message-to", script, message, *arguments], "request_id": 1}
     try:
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
             connection.settimeout(0.25)
             connection.connect(str(path))
             connection.sendall((json.dumps(command) + "\n").encode())
-    except OSError:
-        return False
-    return True
+            # Drain the response before closing: fire-and-forget caused MPV
+            # broken-pipe errors on every controller state transition.
+            with connection.makefile("rb") as response:
+                while line := response.readline():
+                    result = json.loads(line)
+                    if result.get("request_id") == 1:
+                        return result.get("error") == "success"
+    except (OSError, ValueError):
+        pass
+    return False
+
+
+def route_input(flatpak_id, reserved, neutral):
+    return _script_message(flatpak_id, "act_i_input_guard", "act-i-routing",
+                           "yes" if reserved else "no", "yes" if neutral else "no")
+
+
+def route_workspace(flatpak_id, active):
+    return _script_message(flatpak_id, "act_i_playback_policy", "act-i-workspace",
+                           "yes" if active else "no")

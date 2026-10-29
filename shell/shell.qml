@@ -55,6 +55,7 @@ ShellRoot {
   Process {
     id: workspaceAction
     onExited: (exitCode, exitStatus) => {
+      if (exitCode !== 0) console.warn("Workspace action failed:", exitCode);
       root.workspaceBusy = false;
       Qt.callLater(root.runNextWorkspaceAction);
     }
