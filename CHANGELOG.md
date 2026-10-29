@@ -50,3 +50,8 @@ Application adapters and the full-system installer remain planned.
 - Remove the timed Home-return shortcut. Keep Home held across repeated D-pad
   clicks, with one change per click, no direction auto-repeat and ordered handling
   of rapid requests. Verify page preservation and native controls after release.
+
+- Verify native-menu hardware decoding with VA-API on a 1080p-class H.264 SDR
+  sample, visible HDMI audio/video, sampled zero drops and controller pause/resume.
+  Record SRT visibility, seek recovery, the tested path and remaining media
+  acceptance limits.

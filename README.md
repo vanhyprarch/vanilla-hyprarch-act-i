@@ -24,7 +24,9 @@ cycle workspace 1 and open applications. Home alone has no timed action. See [ga
 verified on the target. Workspace switching now preserves a film detail page,
 with Home + D-pad left/right shortcuts and focus-isolated Jellyfin input.
 See [workspace controls](docs/workspace-navigation.md). HDR and refresh switching
-remain planned. Moonlight testing is deferred
+remain planned. A first H.264 SDR sample now passes native-menu VA-API decoding,
+HDMI audio and controller pause/resume; see [media acceptance](docs/media-playback.md).
+Moonlight testing is deferred
 until a Sunshine host is available. See [manual session usage](docs/manual-session.md).
 
 All source, Git operations, builds and runtime tests belong on the dedicated test

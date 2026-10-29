@@ -58,6 +58,17 @@ owner decision; preserve the existing Jellyfin mapping until it is resolved.
 Validate Jellyfin/MPV with SDR, HDR, return to SDR, subtitles and representative
 1080p/4K media. Confirm the display path, not only player metadata.
 
+Progress:
+- [x] Verify one H.264 1080p-class SDR sample using native Hardware Decoding=On.
+- [x] Confirm active VA-API surfaces, zero drops over the sampled interval and HDMI audio.
+- [x] Verify controller pause/resume with position retained and VA-API still active.
+- [x] Verify SRT visibility and video/decoder recovery after a forward seek.
+- [ ] Verify workspace playback policy, other subtitles and additional formats.
+- [ ] Verify 4K SDR and HDR/SDR transitions on the actual display.
+
+See [media acceptance](media-playback.md). M3 remains incomplete.
+
+
 ## M4: Refresh manager
 
 Test supported exact/integer-multiple matching for fractional and integer video
