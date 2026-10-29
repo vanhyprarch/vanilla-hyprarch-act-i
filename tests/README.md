@@ -1,8 +1,6 @@
 # Validation
 
-Add meaningful automated checks as behavior is implemented. Hardware acceptance
-requires actual T8 testing: controller focus/routing, SDR/HDR transitions, refresh
-matching, mode recovery, audio resync and Moonlight session behavior.
-
-Record versions, conditions, commands, observations and failures. Successful API
-calls alone do not prove correct display output. No automated suite exists yet.
+`tests/tst_Home.qml` checks keyboard focus, wrapping selection and application setup
+feedback with Qt Quick Test. Run it on the target as described in
+`docs/manual-session.md`. These tests do not prove physical input, gamepad routing,
+audio output or display/HDR compatibility. Record those through hardware acceptance.

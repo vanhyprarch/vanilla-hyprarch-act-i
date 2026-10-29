@@ -1,4 +1,6 @@
 # Home shell
 
-Reserved for the Quickshell launcher. Start with a minimal keyboard-navigable
-Home in M1; controller navigation follows in M2. No implementation exists yet.
+`shell.qml` is the Quickshell entry point. `Home.qml` provides the keyboard-first
+TV interface without application-process management. Start the manual session
+using `scripts/start-session`; see `docs/manual-session.md` for recovery controls.
+Jellyfin/Moonlight launch and controller input follow in M2.

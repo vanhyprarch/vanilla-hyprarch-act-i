@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-2.0-only
+set -euo pipefail
+if [[ $EUID -eq 0 || -n ${SSH_CONNECTION:-} || ! -t 0 ]]; then
+  printf 'Start Act I as your normal user from a local text console.\n' >&2
+  exit 1
+fi
+for program in Hyprland quickshell systemctl; do
+  command -v "$program" >/dev/null || { printf 'Missing command: %s\n' "$program" >&2; exit 1; }
+done
+repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
+export ACT_I_REPO_DIR="$repo_dir"
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_DESKTOP=Hyprland
+systemctl --user start pipewire.socket pipewire-pulse.socket wireplumber.service
+printf 'Starting Act I. Super+Shift+E exits to this console.\n'
+exec Hyprland --config "$repo_dir/config/hypr/hyprland.lua"

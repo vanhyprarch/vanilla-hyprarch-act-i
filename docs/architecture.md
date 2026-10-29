@@ -1,6 +1,7 @@
 # Architecture
 
-Status: initial design; components are not implemented yet.
+Status: a keyboard-first Home and manual session prototype are implemented.
+Session/display managers and application adapters remain planned.
 
 ## Platform
 

@@ -7,7 +7,11 @@
 - Document the architecture and M0-M6 acceptance criteria.
 - Select GPL-2.0-only licensing.
 
-No graphical shell, application adapters or installer are implemented yet.
+- Add a fullscreen keyboard-first Quickshell Home and isolated manual Hyprland
+  session with console recovery bindings.
+- Add Qt Quick tests for selection, focus and setup feedback.
+
+Application adapters, automatic login and the installer remain unimplemented.
 
 - Install the approved Git and EDID diagnostic tooling on T8.
 - Initialize the remote Git repository with branch `main`.
