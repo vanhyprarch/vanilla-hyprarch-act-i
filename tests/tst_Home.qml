@@ -16,6 +16,18 @@ Item {
       home.forceActiveFocus();
       tryVerify(() => home.activeFocus);
     }
+    function test_gamepad_navigation_and_modal_back() {
+      home.navigate("previous");
+      compare(home.selectedIndex, 1);
+      home.navigate("select");
+      verify(home.notice.indexOf("Moonlight") !== -1);
+      home.navigate("next");
+      compare(home.selectedIndex, 1);
+      home.navigate("back");
+      compare(home.notice, "");
+      home.navigate("next");
+      compare(home.selectedIndex, 0);
+    }
     function test_arrow_navigation_wraps() {
       keyClick(Qt.Key_Right);
       compare(home.selectedIndex, 1);

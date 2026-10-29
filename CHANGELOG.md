@@ -11,7 +11,7 @@
   session with console recovery bindings.
 - Add Qt Quick tests for selection, focus and setup feedback.
 
-Application adapters, automatic login and the installer remain unimplemented.
+Application adapters and the full-system installer remain planned.
 
 - Install the approved Git and EDID diagnostic tooling on T8.
 - Initialize the remote Git repository with branch `main`.
@@ -26,3 +26,8 @@ Application adapters, automatic login and the installer remain unimplemented.
   project configuration and avoiding the direct-start warning.
 - Verify approved greetd autologin after reboot and text-greeter recovery on exit.
 - Complete the initial M1 milestone; application launch and gamepad input remain M2.
+
+- Add an explicit per-user Flatpak installer backed by a reviewed application catalog.
+- Add non-exclusive gamepad input with focus gating, hotplug discovery and repeat control.
+- Verify KK3 Max Switch-mode Bluetooth Home navigation on the TV.
+- Implement the owner-selected five-second Home hold; physical acceptance is pending.

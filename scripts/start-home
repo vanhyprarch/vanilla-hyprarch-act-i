@@ -3,4 +3,5 @@
 set -euo pipefail
 repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 command -v quickshell >/dev/null || { printf 'Quickshell is not installed.\n' >&2; exit 1; }
+export ACT_I_REPO_DIR="$repo_dir"
 exec quickshell --no-duplicate --path "$repo_dir/shell"

@@ -1,5 +1,9 @@
 # Services
 
-Reserved for the separate session and display managers. Use event-driven state
-and a small adapter interface. Select languages and dependencies after prototypes.
-No service is installed or implemented yet.
+`session/gamepad.py` implements the first unprivileged input bridge owned by the
+Quickshell Home. It uses evdev and pyudev, gates normal actions by window focus,
+and requests Home after a deliberate five-second Home-button hold. See
+[gamepad input](../docs/gamepad.md).
+
+Application lifecycle and display management remain separate planned increments.
+Use Hyprland events and small application adapters rather than polling windows.

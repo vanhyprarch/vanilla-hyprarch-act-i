@@ -1,8 +1,9 @@
 # M1 manual Home session
 
 This first increment provides a fullscreen keyboard-navigable Home. Jellyfin and
-Moonlight tiles show setup feedback; application launch and gamepad input are M2
-work. No automatic login, display-rate manager or HDR switching is implemented.
+Moonlight tiles currently show setup feedback; application launch is M2 work.
+The first gamepad navigation increment is described in [gamepad input](gamepad.md).
+Automatic login is verified; display-rate management and HDR switching are pending.
 
 ## Runtime packages
 
@@ -69,7 +70,8 @@ arrow/Enter/Esc navigation, exit to the console, restart into Home and a short H
 stereo playback check. Automatic startup after reboot and text-greeter recovery are also verified. The
 official start-hyprland launcher removes the direct-start warning, and exit/re-entry
 was retested after that correction. These results do not validate application
-playback, HDR, refresh switching or gamepad input.
+playback, HDR or refresh switching. Home gamepad navigation has since passed the
+physical checks described in [gamepad input](gamepad.md).
 
 ## Automatic startup
 

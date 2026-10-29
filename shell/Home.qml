@@ -6,6 +6,7 @@ FocusScope {
   focus: true
   property int selectedIndex: 0
   property string notice: ""
+  property int gamepadCount: 0
   readonly property real unit: Math.max(0.5, Math.min(width / 1280, height / 720))
   readonly property var applications: [
     { name: "Jellyfin", subtitle: "Movies & series", glyph: "\u25b6", accent: "#83d5d1" },
@@ -18,6 +19,16 @@ FocusScope {
 
   function activateSelected() {
     notice = applications[selectedIndex].name + " is not configured yet.";
+  }
+
+  function navigate(action) {
+    if (notice.length > 0) {
+      if (action === "select" || action === "back") notice = "";
+      return;
+    }
+    if (action === "next") moveSelection(1);
+    else if (action === "previous") moveSelection(-1);
+    else if (action === "select") activateSelected();
   }
 
   Component.onCompleted: forceActiveFocus()
@@ -154,7 +165,9 @@ FocusScope {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
     anchors.bottomMargin: 54 * home.unit
-    text: "\u2190  \u2192   Choose       Enter   Select       Esc   Back"
+    text: home.gamepadCount > 0
+      ? "D-pad / Stick   Choose       A   Select       B   Back"
+      : "\u2190  \u2192   Choose       Enter   Select       Esc   Back"
     color: "#a7bbc9"
     font.family: "DejaVu Sans"
     font.pixelSize: 18 * home.unit
@@ -192,7 +205,7 @@ FocusScope {
         }
         Text {
           anchors.horizontalCenter: parent.horizontalCenter
-          text: "Press Enter or Esc to return"
+          text: home.gamepadCount > 0 ? "Press A or B to return" : "Press Enter or Esc to return"
           color: "#e8ca83"
           font.family: "DejaVu Sans"
           font.pixelSize: 17 * home.unit

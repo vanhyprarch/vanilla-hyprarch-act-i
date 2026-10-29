@@ -17,8 +17,12 @@ confirmed physical Home display, keyboard navigation, console exit/restart and
 basic HDMI stereo output. Approved automatic startup through greetd, exit to
 the text greeter and manual recovery have also been verified after reboot.
 
-Application launching, controller input, HDR and refresh switching are not
-implemented yet. See [manual session usage](docs/manual-session.md).
+M2 is in progress: Home navigation is physically verified with a GuliKit KK3 Max
+in Switch mode over Bluetooth. A five-second Home hold is implemented; physical
+acceptance is pending. See [gamepad behavior](docs/gamepad.md) and the explicit
+[Flatpak installer](docs/applications.md). Application launch/lifecycle, HDR and
+refresh switching remain in progress or planned. Moonlight testing is deferred
+until a Sunshine host is available. See [manual session usage](docs/manual-session.md).
 
 All source, Git operations, builds and runtime tests belong on the dedicated test
 machine. The production workstation is an SSH client only and must not contain
@@ -37,8 +41,8 @@ repository.
 
 Start with one output and one seat. Separate HDR policy from refresh selection.
 Do not claim HDR, refresh matching or controller compatibility before hardware
-validation. Jellyfin MPV Shim does not by itself resolve gamepad-only library
-browsing; the browsing frontend remains an explicit design decision.
+validation. Jellyfin MPV Shim 3.x includes an MPV library browser and gamepad input;
+its suitability still needs hardware validation.
 
 ## Repository layout
 
