@@ -32,8 +32,9 @@ L+R+Start+Select Moonlight disconnect chord is not assigned by Act I.
 
 The reader exits when the shell closes its input pipe. Disconnecting a controller
 removes its repeat/hold state; udev device creation triggers discovery on reconnect.
-Reader failure leaves keyboard recovery available. A global Home shortcut needs
-its own physical acceptance check; software timing tests do not prove it on a TV.
+Reader failure leaves keyboard recovery available. The owner physically verified
+that the five-second Home hold returns from the Jellyfin library to Act I.
+Moonlight behavior and Bluetooth reconnect still need their own acceptance checks.
 
 ## Checks
 
@@ -44,6 +45,15 @@ python -m unittest discover -s tests -p 'test_*.py' -v
 QT_QPA_PLATFORM=offscreen /usr/lib/qt6/bin/qmltestrunner -input tests -o -,txt
 ```
 
-Then verify navigation, modal back, held Home from another workspace, disconnect
-and reconnect, and that ordinary input goes to the focused application. These
+Navigation, modal back, held Home from Jellyfin and tile-based re-entry have passed
+physical checks. Continue with disconnect/reconnect and ordinary input routing
+for each newly supported application. These
 checks do not validate application playback, game streaming, HDR or refresh rates.
+
+## Face-button convention
+
+The current Home uses physical Nintendo A (east) to select and B (south) for back.
+The owner observed the opposite, positional convention in Jellyfin: B (south)
+selects and A (east) goes back. Preserve both current mappings until the owner
+chooses a unified Act I convention. Do not infer physical button behavior solely
+from an SDL label or a Jellyfin setting name.

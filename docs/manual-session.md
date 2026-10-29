@@ -1,7 +1,8 @@
 # M1 manual Home session
 
 This first increment provides a fullscreen keyboard-navigable Home. Jellyfin and
-Moonlight tiles currently show setup feedback; application launch is M2 work.
+Moonlight remains setup feedback. Jellyfin launch and lifecycle are documented
+in [applications](applications.md).
 The first gamepad navigation increment is described in [gamepad input](gamepad.md).
 Automatic login is verified; display-rate management and HDR switching are pending.
 
@@ -37,7 +38,7 @@ ACT_I_KEYBOARD_LAYOUT=it ./scripts/start-session
 | Key | Action |
 | --- | --- |
 | Arrows or Tab / Shift+Tab | Move selection |
-| Enter or Space | Show the selected application's setup status |
+| Enter or Space | Open Jellyfin or show the selected application's setup status |
 | Esc | Dismiss the setup message |
 | Super+H | Focus Home workspace 1 |
 | Super+R | Request Home startup again if it has exited |

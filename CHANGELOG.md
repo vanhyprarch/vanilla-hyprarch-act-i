@@ -30,4 +30,9 @@ Application adapters and the full-system installer remain planned.
 - Add an explicit per-user Flatpak installer backed by a reviewed application catalog.
 - Add non-exclusive gamepad input with focus gating, hotplug discovery and repeat control.
 - Verify KK3 Max Switch-mode Bluetooth Home navigation on the TV.
-- Implement the owner-selected five-second Home hold; physical acceptance is pending.
+- Verify the owner-selected five-second Home hold from the Jellyfin library.
+- Add event-driven Jellyfin tile launch, re-entry, fullscreen workspace assignment
+  and automatic Home return on graceful close, preserving existing app preferences.
+- Verify Jellyfin library navigation and retained login after a cold client launch.
+- Leave the existing Jellyfin face-button convention unchanged; Home/Jellyfin
+  consistency remains an owner decision. Moonlight tests await a Sunshine host.

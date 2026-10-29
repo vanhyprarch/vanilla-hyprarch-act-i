@@ -39,6 +39,18 @@ Verify Xbox/PlayStation Home navigation, application launch, fullscreen workspac
 Home/app switching and return on exit. Select and validate a gamepad-friendly
 Jellyfin browsing frontend rather than silently depending on phone casting.
 
+Progress:
+- [x] Verify KK3 Max Switch-mode Bluetooth Home navigation.
+- [x] Verify Jellyfin MPV Shim 3.3.0 library browsing and gamepad navigation.
+- [x] Verify the owner-selected five-second Home hold from Jellyfin.
+- [x] Accept Jellyfin tile launch, fullscreen re-entry and close/recovery.
+- [ ] Verify Bluetooth disconnect/reconnect and additional controller families.
+- [ ] Validate Moonlight when a Sunshine host is available.
+
+The first hardware test uses a Nintendo-mode controller. Xbox/PlayStation and
+Moonlight remain pending; M2 is not complete. Face-button consistency is an open
+owner decision; preserve the existing Jellyfin mapping until it is resolved.
+
 ## M3: Media playback and HDR
 
 Validate Jellyfin/MPV with SDR, HDR, return to SDR, subtitles and representative

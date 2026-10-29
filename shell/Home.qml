@@ -7,10 +7,12 @@ FocusScope {
   property int selectedIndex: 0
   property string notice: ""
   property int gamepadCount: 0
+  property bool jellyfinAvailable: false
+  signal launchRequested(string application)
   readonly property real unit: Math.max(0.5, Math.min(width / 1280, height / 720))
   readonly property var applications: [
-    { name: "Jellyfin", subtitle: "Movies & series", glyph: "\u25b6", accent: "#83d5d1" },
-    { name: "Moonlight", subtitle: "Play from your PC", glyph: "\u25c7", accent: "#b4b6f2" }
+    { id: "jellyfin", name: "Jellyfin", subtitle: "Movies & series", glyph: "\u25b6", accent: "#83d5d1" },
+    { id: "moonlight", name: "Moonlight", subtitle: "Play from your PC", glyph: "\u25c7", accent: "#b4b6f2" }
   ]
 
   function moveSelection(offset) {
@@ -18,7 +20,9 @@ FocusScope {
   }
 
   function activateSelected() {
-    notice = applications[selectedIndex].name + " is not configured yet.";
+    const application = applications[selectedIndex];
+    if (application.id === "jellyfin" && jellyfinAvailable) launchRequested(application.id);
+    else notice = application.name + " is not configured yet.";
   }
 
   function navigate(action) {
@@ -111,7 +115,7 @@ FocusScope {
         border.color: selected ? "#e8ca83" : "#30424e"
         Accessible.role: Accessible.Button
         Accessible.name: modelData.name
-        Accessible.description: modelData.subtitle + ". Setup required."
+        Accessible.description: modelData.subtitle + (modelData.id === "jellyfin" && home.jellyfinAvailable ? ". Open." : ". Setup required.")
         Behavior on color { ColorAnimation { duration: 120 } }
 
         Column {
@@ -144,7 +148,7 @@ FocusScope {
           anchors.left: parent.left
           anchors.bottom: parent.bottom
           anchors.margins: 32 * home.unit
-          text: "Setup required"
+          text: tile.modelData.id === "jellyfin" && home.jellyfinAvailable ? "Open" : "Setup required"
           color: "#91a7b7"
           font.family: "DejaVu Sans"
           font.pixelSize: 14 * home.unit
@@ -166,7 +170,7 @@ FocusScope {
     anchors.bottom: parent.bottom
     anchors.bottomMargin: 54 * home.unit
     text: home.gamepadCount > 0
-      ? "D-pad / Stick   Choose       A   Select       B   Back"
+      ? "D-pad / Stick   Choose       A   Select       B   Back       Hold Home 5s"
       : "\u2190  \u2192   Choose       Enter   Select       Esc   Back"
     color: "#a7bbc9"
     font.family: "DejaVu Sans"

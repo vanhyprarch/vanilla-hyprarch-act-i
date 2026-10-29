@@ -9,7 +9,7 @@ applications, not a standalone Linux distribution.
 
 ## Current status
 
-M1 manual-session prototype. A fullscreen Quickshell Home supports keyboard
+M1 is complete; M2 is in progress. A fullscreen Quickshell Home supports keyboard
 selection and setup feedback for Jellyfin and Moonlight. The manual Hyprland
 session uses its own repository configuration and includes a console-exit binding.
 Keyboard behavior tests and an offscreen Quickshell load check pass. The owner
@@ -18,10 +18,10 @@ basic HDMI stereo output. Approved automatic startup through greetd, exit to
 the text greeter and manual recovery have also been verified after reboot.
 
 M2 is in progress: Home navigation is physically verified with a GuliKit KK3 Max
-in Switch mode over Bluetooth. A five-second Home hold is implemented; physical
-acceptance is pending. See [gamepad behavior](docs/gamepad.md) and the explicit
-[Flatpak installer](docs/applications.md). Application launch/lifecycle, HDR and
-refresh switching remain in progress or planned. Moonlight testing is deferred
+in Switch mode over Bluetooth. A five-second Home hold is physically verified
+from the Jellyfin library. See [gamepad behavior](docs/gamepad.md) and the explicit
+[Flatpak installer](docs/applications.md). Jellyfin library browsing, tile re-entry, cold launch and return on close are
+verified on the target. HDR and refresh switching remain planned. Moonlight testing is deferred
 until a Sunshine host is available. See [manual session usage](docs/manual-session.md).
 
 All source, Git operations, builds and runtime tests belong on the dedicated test

@@ -1,14 +1,15 @@
 # Architecture
 
-Status: a keyboard-first Home and manual session prototype are implemented.
-Session/display managers and application adapters remain planned.
+Status: Home, keyboard/gamepad input, automatic startup and the first Jellyfin
+application lifecycle are implemented and hardware-verified. Display management
+and Moonlight remain planned.
 
 ## Platform
 
 Vanilla Arch Linux, systemd, Hyprland, Quickshell and PipeWire/WirePlumber.
 The initial target is one display and one local seat. Preserve a console recovery
-path. Automatic login belongs to the dedicated HTPC session and is a later,
-explicitly approved system change.
+path. Automatic login belongs to the dedicated HTPC session and has passed the
+approved greetd boot/recovery checks.
 
 ## Home and session management
 
@@ -39,9 +40,12 @@ a last-known-good fallback, bounded recovery and an accessible safe-mode action.
 ## Adapters and implementation choices
 
 Keep application-specific behavior behind a small explicit adapter interface.
-Choose service implementation languages and input libraries after targeted
-prototypes; no additional runtime or IPC framework is selected at this stage.
+The initial session helpers use Python, evdev and pyudev. Quickshell owns their
+process pipes; Hyprland IPC events drive window lifecycle. The application helper
+receives an explicit adapter exposing its window class and profile initialization.
+Display-manager interfaces and playback metadata remain future increments.
 
-Jellyfin library browsing must work from the couch. Evaluate the frontend before
-claiming a fully controller-only Jellyfin experience. Audio passthrough, Atmos,
+Jellyfin MPV Shim 3.3.0's native MPV library browser has passed owner-observed
+library navigation with the KK3 Max. Playback and other controller families still
+need acceptance checks. Audio passthrough, Atmos,
 DTS:X and universal remote-game pausing remain investigations.

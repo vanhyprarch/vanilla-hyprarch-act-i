@@ -7,10 +7,13 @@ Item {
   width: 1280
   height: 720
   Home { id: home; anchors.fill: parent }
+  SignalSpy { id: launchSpy; target: home; signalName: "launchRequested" }
   TestCase {
     name: "HomeKeyboardNavigation"
     when: windowShown
     function init() {
+      home.jellyfinAvailable = false;
+      launchSpy.clear();
       home.selectedIndex = 0;
       home.notice = "";
       home.forceActiveFocus();
@@ -27,6 +30,17 @@ Item {
       compare(home.notice, "");
       home.navigate("next");
       compare(home.selectedIndex, 0);
+    }
+    function test_installed_jellyfin_requests_launch_without_setup_modal() {
+      home.jellyfinAvailable = true;
+      home.navigate("select");
+      compare(launchSpy.count, 1);
+      compare(launchSpy.signalArguments[0][0], "jellyfin");
+      compare(home.notice, "");
+      home.navigate("next");
+      home.navigate("select");
+      compare(launchSpy.count, 1);
+      verify(home.notice.indexOf("Moonlight") !== -1);
     }
     function test_arrow_navigation_wraps() {
       keyClick(Qt.Key_Right);
