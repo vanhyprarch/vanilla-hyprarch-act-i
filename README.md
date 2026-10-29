@@ -9,8 +9,9 @@ applications, not a standalone Linux distribution.
 
 ## Current status
 
-Initial development baseline. Remote command execution and temporary-file editing
-have been verified on the dedicated test machine, T8. No Act I graphical session
+M0 development baseline established. Remote command execution, temporary-file
+editing and GitHub synchronization have been verified on the dedicated test
+machine, T8. No Act I graphical session
 or application integration has been implemented or tested yet.
 
 All source, Git operations, builds and runtime tests belong on T8. The production

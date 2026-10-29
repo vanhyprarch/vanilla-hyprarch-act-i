@@ -13,3 +13,5 @@ No graphical shell, application adapters or installer are implemented yet.
 - Initialize the remote Git repository with branch `main`.
 - Record the TV's advertised 4K120/HDR capabilities and EDID conformance warning;
   end-to-end operation remains unverified.
+- Publish the baseline to the separate public GitHub repository directly from T8.
+- Verify repository-scoped SSH authentication and matching local/remote commits.

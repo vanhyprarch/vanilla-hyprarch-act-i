@@ -35,16 +35,22 @@ A functioning graphical console remains the recovery path during setup.
 
 ## Git and publication
 
-The owner selected GitHub account `vanhyprarch`. The intended new project slug is
-`vanilla-hyprarch-act-i`; verify availability and account authorization before
-creating or connecting it. Existing projects are independent and must not be
-modified. The owner confirmed public visibility and the commit identity
+The public repository is
+[vanhyprarch/vanilla-hyprarch-act-i](https://github.com/vanhyprarch/vanilla-hyprarch-act-i).
+Its initial push was performed directly from T8 and verified by comparing local
+and remote commit IDs. Existing projects remain independent and must not be modified. The owner confirmed public visibility and the commit identity
 `vanhyprarch <vanhyprarch@proton.me>`.
 
 Use GPL-2.0-only and English for repository content and commit messages. Never
 invent an author email or publish an unconfirmed personal address. Commit reviewed
 changes on T8 before significant system changes once Git is available.
 
-The T8 disk alone is not a backup. A separately authorized GitHub remote will
-provide off-machine source storage; keep credentials and private hardware/network
+A repository-scoped SSH deploy key on T8 provides write access to this repository.
+Its private part is outside the checkout and is never committed. Repository-local
+Git configuration selects the dedicated identity and pins GitHub.s official SSH
+host key with strict verification. Other repositories and account credentials
+are not needed for this workflow.
+
+The T8 disk alone is not a backup. The authorized GitHub remote now provides
+off-machine source storage; keep credentials and private hardware/network
 identifiers out of published files.

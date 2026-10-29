@@ -14,7 +14,7 @@ open issues. Stop for owner decisions when tradeoffs affect the design.
 - [x] Initialize Git on T8 using branch `main`.
 - [x] Create the first baseline commit using owner-confirmed author details.
 - [x] Verify password-protected sudo through the approved package installation.
-- [ ] Connect a separate GitHub repository under the owner's account.
+- [x] Connect a separate public GitHub repository and verify matching local/remote commits.
 
 ## M1: Minimal graphical appliance
 

@@ -63,7 +63,8 @@ and `libdisplay-info 0.3.0-1`, with their required dependencies. No full system
 upgrade, graphical package installation, reboot or display-mode change occurred.
 
 Git was initialized on T8 in the approved remote directory using branch `main`.
-The owner confirmed commit author details; GitHub authentication remains pending. See the
+The owner confirmed commit author details. Repository-scoped GitHub authentication
+and the initial push were verified directly from T8, with matching commit IDs. See the
 [display baseline](display-baseline.md) for the decoded EDID and its conformance
 warning. The production workstation contains no project checkout created by this
 workflow.
