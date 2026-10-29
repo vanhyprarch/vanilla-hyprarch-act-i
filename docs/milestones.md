@@ -18,6 +18,8 @@ open issues. Stop for owner decisions when tradeoffs affect the design.
 
 ## M1: Minimal graphical appliance
 
+Status: initial milestone complete.
+
 Install a reviewed Hyprland, Quickshell and audio baseline on T8. Provide a simple
 Home with keyboard navigation, a dedicated local session and a console recovery
 path. Add automatic login and reboot testing only with explicit authorization.
@@ -26,7 +28,7 @@ Progress:
 - [x] Implement the keyboard-first Home, manual session scripts and isolated config.
 - [x] Validate keyboard behavior, offscreen shell loading and config syntax.
 - [x] Verify manual Home display, keyboard input, basic HDMI audio and console recovery.
-- [ ] Implement and test approved automatic login and boot recovery.
+- [x] Implement and test approved automatic login and boot recovery using greetd.
 
 Acceptance: Home appears reliably after approved boot testing; a failed graphical
 startup has a documented recovery path. Keep this sprint focused on the shell.

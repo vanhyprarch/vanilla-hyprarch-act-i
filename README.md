@@ -14,10 +14,11 @@ selection and setup feedback for Jellyfin and Moonlight. The manual Hyprland
 session uses its own repository configuration and includes a console-exit binding.
 Keyboard behavior tests and an offscreen Quickshell load check pass. The owner
 confirmed physical Home display, keyboard navigation, console exit/restart and
-basic HDMI stereo output. Automatic boot validation remains pending.
+basic HDMI stereo output. Approved automatic startup through greetd, exit to
+the text greeter and manual recovery have also been verified after reboot.
 
-Application launching, controller input, automatic login, HDR and refresh switching
-are not implemented yet. See [manual session usage](docs/manual-session.md).
+Application launching, controller input, HDR and refresh switching are not
+implemented yet. See [manual session usage](docs/manual-session.md).
 
 All source, Git operations, builds and runtime tests belong on the dedicated test
 machine. The production workstation is an SSH client only and must not contain

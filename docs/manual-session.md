@@ -66,8 +66,10 @@ repository. This document describes the project's implementation and usage only.
 
 The manual prototype has passed owner-observed physical checks for Home display,
 arrow/Enter/Esc navigation, exit to the console, restart into Home and a short HDMI
-stereo playback check. These results do not validate application playback, HDR,
-refresh switching, gamepad input or automatic boot.
+stereo playback check. Automatic startup after reboot and text-greeter recovery are also verified. The
+official start-hyprland launcher removes the direct-start warning, and exit/re-entry
+was retested after that correction. These results do not validate application
+playback, HDR, refresh switching or gamepad input.
 
 ## Automatic startup
 

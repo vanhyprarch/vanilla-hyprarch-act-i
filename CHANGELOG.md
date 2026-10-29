@@ -24,3 +24,5 @@ Application adapters, automatic login and the installer remain unimplemented.
 - Add an unapplied greetd template for the next automatic-start increment.
 - Start Hyprland through its official watchdog launcher, preserving the isolated
   project configuration and avoiding the direct-start warning.
+- Verify approved greetd autologin after reboot and text-greeter recovery on exit.
+- Complete the initial M1 milestone; application launch and gamepad input remain M2.
