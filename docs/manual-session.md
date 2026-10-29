@@ -20,7 +20,8 @@ cd ~/Projects/vanilla-hyprarch-act-i
 ./scripts/start-session
 ```
 
-The script uses the configuration directly from this checkout. It does not copy
+The script uses the official `start-hyprland` watchdog launcher and selects the
+configuration directly from this checkout. It does not copy
 or replace `~/.config/hypr` or `~/.config/quickshell`. The initial output uses its
 preferred mode with SDR color management. Real output-mode validation is pending.
 
@@ -68,16 +69,16 @@ arrow/Enter/Esc navigation, exit to the console, restart into Home and a short H
 stereo playback check. These results do not validate application playback, HDR,
 refresh switching, gamepad input or automatic boot.
 
-## Proposed automatic startup
+## Automatic startup
 
-`config/greetd/config.toml.in` is a reviewed starting template, not an applied
-configuration. It requires the official `greetd` and `greetd-agreety` packages.
+`config/greetd/config.toml.in` is a generic template. Render its placeholders
+for the dedicated target; keep that machine-specific result outside the repository. It requires the official `greetd` and `greetd-agreety` packages.
 The initial session runs the normal user's `scripts/start-session` once per boot.
 When that session ends, the default text greeter provides conventional login to a
 shell, allowing recovery without repeatedly relaunching a broken graphical session.
 
 Activation requires owner authorization, a backup of the installed greetd config,
-review of the packaged service's VT conflict handling, and a boot test. Configure
+review of the packaged service VT conflict handling, and a boot test. Configure
 only the dedicated target's username and absolute session command. Keep target-
 specific rendered configs and maintenance backups outside the project repository.
 
@@ -90,3 +91,21 @@ sudo systemctl enable --now getty@tty1.service
 
 Other local text consoles remain the recovery path. Never enable automatic login
 on a production workstation while testing this template.
+
+### Activation sequence
+
+On the dedicated target, after authorization:
+
+1. Install `greetd` and `greetd-agreety` from the official Arch repositories.
+2. Back up the existing `/etc/greetd/config.toml` and record current service states.
+3. Render the template with the normal HTPC account and absolute `start-session`
+   command; install it root-owned with mode 0644 as `/etc/greetd/config.toml`.
+4. Verify `greetd.service` and `getty@tty2.service` with
+   `systemd-analyze --man=no verify greetd.service getty@tty2.service`.
+5. Enable those two units for the next boot. The packaged greetd unit must include
+   `Conflicts=getty@tty1.service`; leave the recovery tty2 available.
+6. Reboot only when authorized, verify automatic Home startup, then verify that
+   exiting Home reaches the text greeter and permits manual session recovery.
+
+This initial implementation intentionally keeps startup linked to the development
+checkout. Packaging and a stable installed session path belong to the release work.
