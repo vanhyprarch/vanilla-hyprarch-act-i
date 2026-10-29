@@ -3,8 +3,8 @@
 | Control | Behavior |
 | --- | --- |
 | Hold Home for five seconds | Focus the Act I Home on workspace 1 |
-| Hold Home, then press D-pad left once | Focus the previous already-open application |
-| Hold Home, then press D-pad right once | Focus the next already-open application |
+| Hold Home, then press D-pad left once | Focus the previous workspace (Home or an open app) |
+| Hold Home, then press D-pad right once | Focus the next workspace (Home or an open app) |
 | Select an application tile | Focus its existing window, or launch it if closed |
 
 Release Home before another shortcut. One left/right combination fires per Home
@@ -12,11 +12,13 @@ press and cancels the five-second return for that press. The D-pad is deliberate
 stick drift must not trigger an application switch. The controller-only Home
 navigation mapping is unchanged.
 
-The application order follows the assigned workspaces. Home itself is excluded
-from previous/next cycling. Closed or unmapped applications are skipped without
-launching them; no open applications falls back to Home. From Home, right selects
-the first open app and left the last. With one open app, both reach that app;
-if already there, no compositor action is needed.
+Home always participates in the cycle as workspace 1. Open applications follow
+in workspace order. Closed or unmapped applications are skipped without being
+launched; with none open, either direction stays on Home.
+
+With only Jellyfin open, both directions toggle Home (1) and Jellyfin (2).
+With Jellyfin and Moonlight open, right cycles 1 → 2 → 3 → 1, while left cycles
+1 → 3 → 2 → 1. Holding Home five seconds remains a direct return from any app.
 
 `scripts/workspace-action` queries live Hyprland windows and changes only workspace
 focus. It does not issue browser navigation, restart the application, or reopen
@@ -52,7 +54,10 @@ With the KK3 Max in Switch mode and Jellyfin MPV Shim 3.3.0, the owner verified:
 - Open a film detail page, hold Home five seconds, navigate Act I Home, then
   select Jellyfin again: the same detail page remains open.
 - Repeat the Home return, then use Home + D-pad right: the same page remains.
-- Home + D-pad left with one app open leaves the page unchanged.
+- Film-page preservation and native input after shortcut re-entry were verified.
+  The updated cycle includes Home. Live compositor command checks confirmed
+  1 → 2 → 1 in both directions with the same Jellyfin process; the updated
+  gamepad toggle still needs owner-observed acceptance.
 - D-pad and the existing Jellyfin B-select/A-back controls work after re-entry.
 
 The Jellyfin window retained the same process throughout those transitions. Live

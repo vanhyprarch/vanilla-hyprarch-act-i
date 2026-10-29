@@ -27,7 +27,7 @@ stick input uses a 35 percent dead zone. A/B activate once per press.
 
 Holding Home (`BTN_MODE`) for five seconds requests workspace 1 once, including
 when an application has focus. Release it before the shortcut can fire again.
-Home + D-pad left/right cycles already-open application workspaces once per Home
+Home + D-pad left/right cycles Home and already-open application workspaces once per Home
 press and cancels the long-hold timer. Jellyfin now has an MPV input guard that
 reserves Guide and blocks background/held-transition input, preserving its native
 face-button bindings. See [workspace navigation](workspace-navigation.md).

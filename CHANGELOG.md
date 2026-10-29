@@ -43,3 +43,7 @@ Application adapters and the full-system installer remain planned.
   Home gestures through a managed MPV script, preserving existing A/B bindings.
 - Verify film detail-page preservation through tile and shortcut re-entry,
   unchanged process identity, and normal native controls after return.
+
+- Include Home in both directions of workspace cycling. With only Jellyfin open,
+  either shortcut toggles Home and Jellyfin; closed application workspaces stay
+  excluded. The five-second direct return remains available.

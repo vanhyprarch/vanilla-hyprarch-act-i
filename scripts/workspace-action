@@ -9,7 +9,7 @@ from adapters.catalog import load_catalog
 from services.session.application import Hyprland
 from services.session.workspaces import target_workspace
 
-parser = argparse.ArgumentParser(description='Focus Home or another already-open application.')
+parser = argparse.ArgumentParser(description='Cycle Home and already-open applications without launching them.')
 parser.add_argument('action', choices=['home', 'previous', 'next'])
 args = parser.parse_args()
 hyprland = Hyprland()
