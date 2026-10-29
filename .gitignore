@@ -1,0 +1,11 @@
+/build/
+/dist/
+/.cache/
+/.venv/
+__pycache__/
+*.py[cod]
+*.log
+.env
+.env.*
+!.env.example
+/config/local/
