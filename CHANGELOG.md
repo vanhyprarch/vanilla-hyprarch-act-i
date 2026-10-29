@@ -30,15 +30,14 @@ Application adapters and the full-system installer remain planned.
 - Add an explicit per-user Flatpak installer backed by a reviewed application catalog.
 - Add non-exclusive gamepad input with focus gating, hotplug discovery and repeat control.
 - Verify KK3 Max Switch-mode Bluetooth Home navigation on the TV.
-- Verify the owner-selected five-second Home hold from the Jellyfin library.
 - Add event-driven Jellyfin tile launch, re-entry, fullscreen workspace assignment
   and automatic Home return on graceful close, preserving existing app preferences.
 - Verify Jellyfin library navigation and retained login after a cold client launch.
 - Leave the existing Jellyfin face-button convention unchanged; Home/Jellyfin
   consistency remains an owner decision. Moonlight tests await a Sunshine host.
 
-- Add Home + D-pad left/right to cycle already-open application workspaces,
-  skipping closed apps and canceling the long Home hold after a chord.
+- Add Home + D-pad left/right to cycle open application workspaces, skipping
+  closed apps.
 - Isolate Jellyfin's native SDL input in background workspaces and during reserved
   Home gestures through a managed MPV script, preserving existing A/B bindings.
 - Verify film detail-page preservation through tile and shortcut re-entry,
@@ -46,4 +45,8 @@ Application adapters and the full-system installer remain planned.
 
 - Include Home in both directions of workspace cycling. With only Jellyfin open,
   either shortcut toggles Home and Jellyfin; closed application workspaces stay
-  excluded. The five-second direct return remains available.
+  excluded.
+
+- Remove the timed Home-return shortcut. Keep Home held across repeated D-pad
+  clicks, with one change per click, no direction auto-repeat and ordered handling
+  of rapid requests. Verify page preservation and native controls after release.

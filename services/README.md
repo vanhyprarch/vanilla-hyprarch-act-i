@@ -2,7 +2,7 @@
 
 `session/gamepad.py` implements the first unprivileged input bridge owned by the
 Quickshell Home. It uses evdev and pyudev, gates normal actions by window focus,
-and requests Home after a deliberate five-second Home-button hold. See
+and handles repeated Home-modified D-pad clicks without timed Home actions. See
 [gamepad input](../docs/gamepad.md).
 
 `session/application.py` manages one reviewed application through Hyprland IPC

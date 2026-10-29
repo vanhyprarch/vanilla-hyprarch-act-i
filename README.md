@@ -18,8 +18,8 @@ basic HDMI stereo output. Approved automatic startup through greetd, exit to
 the text greeter and manual recovery have also been verified after reboot.
 
 M2 is in progress: Home navigation is physically verified with a GuliKit KK3 Max
-in Switch mode over Bluetooth. A five-second Home hold is physically verified
-from the Jellyfin library. See [gamepad behavior](docs/gamepad.md) and the explicit
+in Switch mode over Bluetooth. Keep Home held and click D-pad left/right to
+cycle workspace 1 and open applications. Home alone has no timed action. See [gamepad behavior](docs/gamepad.md) and the explicit
 [Flatpak installer](docs/applications.md). Jellyfin library browsing, tile re-entry, cold launch and return on close are
 verified on the target. Workspace switching now preserves a film detail page,
 with Home + D-pad left/right shortcuts and focus-isolated Jellyfin input.

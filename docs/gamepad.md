@@ -25,12 +25,12 @@ the shell. Losing focus cancels directional repeat. Held controls cannot repeat
 into Home on re-entry. D-pad and left stick repeat after 400 ms, then every 160 ms;
 stick input uses a 35 percent dead zone. A/B activate once per press.
 
-Holding Home (`BTN_MODE`) for five seconds requests workspace 1 once, including
-when an application has focus. Release it before the shortcut can fire again.
-Home + D-pad left/right cycles Home and already-open application workspaces once per Home
-press and cancels the long-hold timer. Jellyfin now has an MPV input guard that
-reserves Guide and blocks background/held-transition input, preserving its native
-face-button bindings. See [workspace navigation](workspace-navigation.md).
+Home (`BTN_MODE`) is a workspace-navigation modifier. Keep it held while clicking
+D-pad left/right to cycle Home and already-open application workspaces. Each fresh
+click produces one step, even across focus changes; held directions do not repeat.
+Home alone never changes workspace. Jellyfin's MPV input guard reserves Guide and
+blocks background/held-transition input, preserving native face-button bindings.
+See [workspace navigation](workspace-navigation.md).
 Moonlight input isolation and forwarding remain separate acceptance work when
 Sunshine is available. The
 L+R+Start+Select Moonlight disconnect chord is not assigned by Act I.
@@ -38,7 +38,8 @@ L+R+Start+Select Moonlight disconnect chord is not assigned by Act I.
 The reader exits when the shell closes its input pipe. Disconnecting a controller
 removes its repeat/hold state; udev device creation triggers discovery on reconnect.
 Reader failure leaves keyboard recovery available. The owner physically verified
-that the five-second Home hold returns from the Jellyfin library to Act I.
+repeated left/right clicks while Home stays held, no action from Home alone, and
+normal Jellyfin controls after release.
 Moonlight behavior and Bluetooth reconnect still need their own acceptance checks.
 
 ## Checks
@@ -50,7 +51,7 @@ python -m unittest discover -s tests -p 'test_*.py' -v
 QT_QPA_PLATFORM=offscreen /usr/lib/qt6/bin/qmltestrunner -input tests -o -,txt
 ```
 
-Navigation, modal back, held Home from Jellyfin and tile-based re-entry have passed
+Navigation, modal back, Home-modified workspace changes and tile-based re-entry have passed
 physical checks. Continue with disconnect/reconnect and ordinary input routing
 for each newly supported application. These
 checks do not validate application playback, game streaming, HDR or refresh rates.

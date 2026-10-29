@@ -60,18 +60,46 @@ class NavigationTests(unittest.TestCase):
         self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_X, 128, 3))
         self.assertIsNone(pad.repeat(4))
 
-    def test_home_right_is_one_shot_and_cancels_hold(self):
+    def test_repeated_clicks_with_one_home_hold(self):
         pad = self.pad()
         pad.set_focus(False)
         pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
+        for now, direction, action in ((1, 1, "app-next"), (2, 1, "app-next"),
+                                       (3, -1, "app-previous"), (4, -1, "app-previous")):
+            pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, now - 0.1)
+            self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, direction, now), action)
+            self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_HAT0X, direction, now + 0.01))
+            self.assertIsNone(pad.repeat(now + 0.5))
+        self.assertIn(E.BTN_MODE, pad.pressed)
+
+    def test_shortcuts_survive_focus_changes_while_home_stays_held(self):
+        pad = self.pad()
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
         self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 1), "app-next")
-        self.assertIsNone(pad.repeat(6))
-        pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 7)
-        self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_HAT0X, -1, 8))
-        pad.feed(E.EV_KEY, E.BTN_MODE, 0, 9)
-        pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 10)
-        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 11)
-        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, -1, 12), "app-previous")
+        pad.set_focus(False)
+        pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 2)
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, -1, 3), "app-previous")
+        pad.set_focus(True)
+        pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 4)
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 5), "app-next")
+
+    def test_held_direction_and_stick_do_not_repeat_shortcuts(self):
+        pad = self.pad()
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
+        self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_X, 255, 1))
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 2), "app-next")
+        for now in (3, 6, 30):
+            self.assertIsNone(pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, now))
+            self.assertIsNone(pad.repeat(now))
+
+    def test_home_release_requires_new_direction_before_home_navigation(self):
+        pad = self.pad()
+        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
+        pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 1)
+        pad.feed(E.EV_KEY, E.BTN_MODE, 0, 2)
+        self.assertIsNone(pad.repeat(3))
+        pad.feed(E.EV_ABS, E.ABS_HAT0X, 0, 4)
+        self.assertEqual(pad.feed(E.EV_ABS, E.ABS_HAT0X, 1, 5), "next")
 
     def test_reserved_home_suppresses_regular_home_navigation(self):
         pad = self.pad()
@@ -92,23 +120,15 @@ class NavigationTests(unittest.TestCase):
         pad.feed(E.EV_ABS, E.ABS_RX, 0, 3)
         self.assertTrue(pad.neutral)
 
-    def test_short_home_press_does_not_return_home(self):
-        pad = self.pad()
-        self.assertIsNone(pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0))
-        self.assertIsNone(pad.repeat(4.99))
-        pad.feed(E.EV_KEY, E.BTN_MODE, 0, 4.99)
-        self.assertIsNone(pad.repeat(5.1))
-
-    def test_held_home_returns_once_while_app_has_focus(self):
-        pad = self.pad()
-        pad.set_focus(False)
-        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0)
-        self.assertIsNone(pad.repeat(4.99))
-        self.assertEqual(pad.repeat(5), "home")
-        self.assertIsNone(pad.repeat(10))
-        pad.feed(E.EV_KEY, E.BTN_MODE, 0, 11)
-        pad.feed(E.EV_KEY, E.BTN_MODE, 1, 12)
-        self.assertEqual(pad.repeat(17), "home")
+    def test_home_alone_has_no_action_regardless_of_duration(self):
+        for focused in (False, True):
+            pad = self.pad()
+            pad.set_focus(focused)
+            self.assertIsNone(pad.feed(E.EV_KEY, E.BTN_MODE, 1, 0))
+            for now in (0.1, 5, 6, 30, 300):
+                self.assertIsNone(pad.repeat(now))
+            self.assertIsNone(pad.feed(E.EV_KEY, E.BTN_MODE, 0, 301))
+            self.assertIsNone(pad.repeat(302))
 
     def test_stream_quit_buttons_have_no_home_action(self):
         pad = self.pad()

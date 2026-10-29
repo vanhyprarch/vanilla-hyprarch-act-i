@@ -42,7 +42,7 @@ Jellyfin browsing frontend rather than silently depending on phone casting.
 Progress:
 - [x] Verify KK3 Max Switch-mode Bluetooth Home navigation.
 - [x] Verify Jellyfin MPV Shim 3.3.0 library browsing and gamepad navigation.
-- [x] Verify the owner-selected five-second Home hold from Jellyfin.
+- [x] Verify repeated workspace changes with Home held, and no action from Home alone.
 - [x] Accept Jellyfin tile launch, fullscreen re-entry and close/recovery.
 - [x] Preserve film detail pages across Home/tile and Home+D-pad transitions.
 - [x] Verify native Jellyfin controls still work after re-entry.

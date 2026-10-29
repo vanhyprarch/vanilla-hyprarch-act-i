@@ -173,7 +173,7 @@ FocusScope {
     horizontalAlignment: Text.AlignHCenter
     wrapMode: Text.WordWrap
     text: home.gamepadCount > 0
-      ? "D-pad / Stick   Choose       A   Select       B   Back       Home + \u2190/\u2192   Switch apps       Hold Home 5s"
+      ? "D-pad / Stick   Choose       A   Select       B   Back       Home + \u2190/\u2192   Workspaces"
       : "\u2190  \u2192   Choose       Enter   Select       Esc   Back"
     color: "#a7bbc9"
     font.family: "DejaVu Sans"

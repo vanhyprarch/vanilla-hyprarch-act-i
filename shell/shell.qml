@@ -8,8 +8,16 @@ ShellRoot {
   id: root
   readonly property bool homeFocused: home.Window.active
   onHomeFocusedChanged: sendFocus()
+  property var workspaceQueue: []
+  property bool workspaceBusy: false
   function changeWorkspace(action) {
-    if (workspaceAction.running) return;
+    workspaceQueue.push(action);
+    runNextWorkspaceAction();
+  }
+  function runNextWorkspaceAction() {
+    if (workspaceBusy || workspaceQueue.length === 0) return;
+    workspaceBusy = true;
+    const action = workspaceQueue.shift();
     workspaceAction.command = [Quickshell.env("ACT_I_REPO_DIR") + "/scripts/workspace-action", action];
     workspaceAction.running = true;
   }
@@ -30,8 +38,7 @@ ShellRoot {
           const message = JSON.parse(data);
           if (message.type === "devices") home.gamepadCount = message.count;
           else if (message.type === "action") {
-            if (message.action === "home") root.changeWorkspace("home");
-            else if (message.action === "app-next") root.changeWorkspace("next");
+            if (message.action === "app-next") root.changeWorkspace("next");
             else if (message.action === "app-previous") root.changeWorkspace("previous");
             else if (root.homeFocused) home.navigate(message.action);
           }
@@ -46,6 +53,10 @@ ShellRoot {
   }
   Process {
     id: workspaceAction
+    onExited: (exitCode, exitStatus) => {
+      root.workspaceBusy = false;
+      Qt.callLater(root.runNextWorkspaceAction);
+    }
     stdout: StdioCollector {}
     stderr: SplitParser { onRead: data => console.warn(data) }
   }

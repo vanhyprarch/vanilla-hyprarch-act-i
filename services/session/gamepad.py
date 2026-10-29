@@ -21,8 +21,6 @@ class Navigation:
         self.axes = {}
         self.raw_axes = {}
         self.pressed = set()
-        self.home_since = None
-        self.home_fired = False
         self.focused = False
         self.direction = 0
         self.next_repeat = None
@@ -45,13 +43,8 @@ class Navigation:
     def feed(self, event_type, code, value, now):
         if event_type == E.EV_KEY:
             was_pressed = code in self.pressed
-            if code == E.BTN_MODE:
-                if value == 1 and not was_pressed:
-                    self.home_since = now
-                    self.home_fired = False
-                elif value == 0:
-                    self.home_since = None
-                    self.home_fired = False
+            if code == E.BTN_MODE and value == 1:
+                self.next_repeat = None
             if value == 0:
                 self.pressed.discard(code)
             elif value == 1:
@@ -66,28 +59,28 @@ class Navigation:
             self.raw_axes[code] = value
         if event_type != E.EV_ABS or code not in (E.ABS_X, E.ABS_Y, E.ABS_HAT0X, E.ABS_HAT0Y):
             return None
+        previous_hat = self.axes.get(E.ABS_HAT0X, 0)
         self.axes[code] = self.axis_direction(code, value)
         direction = next((self.axes.get(c, 0) for c in
                           (E.ABS_HAT0X, E.ABS_HAT0Y, E.ABS_X, E.ABS_Y)
                           if self.axes.get(c, 0)), 0)
+        if E.BTN_MODE in self.pressed:
+            self.direction = direction
+            self.next_repeat = None
+            # Each fresh horizontal press is independent of Home's lifetime.
+            if code == E.ABS_HAT0X and value and value != previous_hat:
+                return "app-next" if value > 0 else "app-previous"
+            return None
         if direction == self.direction:
             return None
         self.direction = direction
         self.next_repeat = None
-        if E.BTN_MODE in self.pressed:
-            if code == E.ABS_HAT0X and value and not self.home_fired:
-                self.home_fired = True
-                return "app-next" if value > 0 else "app-previous"
-            return None
         if self.focused and direction:
             self.next_repeat = now + 0.4
             return "next" if direction > 0 else "previous"
         return None
 
     def repeat(self, now):
-        if self.home_since is not None and not self.home_fired and now - self.home_since >= 5:
-            self.home_fired = True
-            return "home"
         if E.BTN_MODE in self.pressed:
             return None
         if not self.focused or self.next_repeat is None or now < self.next_repeat:

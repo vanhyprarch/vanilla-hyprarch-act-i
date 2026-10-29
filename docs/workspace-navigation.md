@@ -2,15 +2,20 @@
 
 | Control | Behavior |
 | --- | --- |
-| Hold Home for five seconds | Focus the Act I Home on workspace 1 |
-| Hold Home, then press D-pad left once | Focus the previous workspace (Home or an open app) |
-| Hold Home, then press D-pad right once | Focus the next workspace (Home or an open app) |
+| Hold Home and click D-pad left | Focus the previous workspace (Home or an open app) |
+| Hold Home and click D-pad right | Focus the next workspace (Home or an open app) |
 | Select an application tile | Focus its existing window, or launch it if closed |
 
-Release Home before another shortcut. One left/right combination fires per Home
-press and cancels the five-second return for that press. The D-pad is deliberate;
-stick drift must not trigger an application switch. The controller-only Home
-navigation mapping is unchanged.
+Keep Home pressed for as many workspace changes as needed. Each new D-pad click
+produces one step; release the direction between clicks, or change direction.
+Holding a direction does not auto-repeat workspace switching. Stick movement
+does not trigger shortcuts. Home by itself has no action, regardless of duration;
+there is no timed return-to-Home shortcut. Super+H remains keyboard recovery.
+
+Release Home to return to normal application controls. The Jellyfin guard keeps
+held transition inputs blocked until controls are released. Rapid workspace
+requests are executed in order rather than discarded while a previous change
+is in progress. The controller-only Home navigation mapping is unchanged.
 
 Home always participates in the cycle as workspace 1. Open applications follow
 in workspace order. Closed or unmapped applications are skipped without being
@@ -18,7 +23,7 @@ launched; with none open, either direction stays on Home.
 
 With only Jellyfin open, both directions toggle Home (1) and Jellyfin (2).
 With Jellyfin and Moonlight open, right cycles 1 → 2 → 3 → 1, while left cycles
-1 → 3 → 2 → 1. Holding Home five seconds remains a direct return from any app.
+1 → 3 → 2 → 1.
 
 `scripts/workspace-action` queries live Hyprland windows and changes only workspace
 focus. It does not issue browser navigation, restart the application, or reopen
@@ -51,19 +56,18 @@ to load the script. Normal workspace transitions do not restart them.
 
 With the KK3 Max in Switch mode and Jellyfin MPV Shim 3.3.0, the owner verified:
 
-- Open a film detail page, hold Home five seconds, navigate Act I Home, then
-  select Jellyfin again: the same detail page remains open.
-- Repeat the Home return, then use Home + D-pad right: the same page remains.
-- Film-page preservation and native input after shortcut re-entry were verified.
-  The updated cycle includes Home. Live compositor command checks confirmed
-  1 → 2 → 1 in both directions with the same Jellyfin process; the updated
-  gamepad toggle still needs owner-observed acceptance.
-- D-pad and the existing Jellyfin B-select/A-back controls work after re-entry.
+- Keep Home pressed and click left/right repeatedly: each click changes between
+  Act I Home and Jellyfin without releasing Home.
+- The same film detail page remains open on re-entry.
+- Hold Home alone for at least six seconds: no workspace change occurs.
+- Release all controls: D-pad and the existing Jellyfin B-select/A-back mappings
+  work normally again.
 
-The Jellyfin window retained the same process throughout those transitions. Live
-MPV IPC confirmed the guard was loaded and normal face-button bindings remained
-native while focused. Automated tests cover multi-app ordering, closed-app
-skipping, one-shot chords, canceled long holds and guard release behavior.
+Earlier live compositor checks verified 1 → 2 → 1 in both directions with the same
+Jellyfin process. Live MPV IPC confirmed that the guard loads and native
+face-button bindings remain in place while focused. Automated tests cover
+multi-app order, closed-app skipping, repeated clicks across focus changes,
+absence of timed Home actions, held-direction suppression and guard release.
 
 Only Jellyfin is installed for the current hardware tests. Two-application cycling
 and input isolation for Moonlight still require its own adapter and acceptance

@@ -62,7 +62,8 @@ library on the TV, and navigated using the KK3 Max D-pad and face buttons. In th
 observed Jellyfin configuration, physical B (south) selects and A (east) goes back.
 Keep this configuration unchanged for now. Home still uses A (east) to select and
 B (south) to go back; a unified convention is an explicit later owner decision.
-Holding Home for five seconds successfully returned from Jellyfin to Act I.
+Home + D-pad left/right changes between the launcher and open app workspaces.
+Home can stay held across repeated clicks; Home alone has no timed action.
 
 Tile-driven re-entry and a cold launch after graceful client shutdown are now
 owner-verified, including retained authentication. Hyprland reports workspace 2,
