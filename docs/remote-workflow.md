@@ -47,7 +47,7 @@ changes on T8 before significant system changes once Git is available.
 
 A repository-scoped SSH deploy key on T8 provides write access to this repository.
 Its private part is outside the checkout and is never committed. Repository-local
-Git configuration selects the dedicated identity and pins GitHub.s official SSH
+Git configuration selects the dedicated identity and pins the official GitHub SSH
 host key with strict verification. Other repositories and account credentials
 are not needed for this workflow.
 
