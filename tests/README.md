@@ -23,7 +23,7 @@ Guide, logical key cancellation, and release quarantine. Hardware checks confirm
 film-page preservation, left/right shortcuts with one app, and input after return;
 multi-app Moonlight acceptance remains pending.
 
-The playback-policy Lua harness checks automatic pause on video focus loss,
+The playback-policy Lua harness checks automatic pause on leaving the Jellyfin workspace,
 manual-only resume, already-paused content and idle/audio/image exclusions.
 
 Close-action tests cover catalog-independent graceful closing, pinned targeting,

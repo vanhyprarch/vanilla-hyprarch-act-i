@@ -20,6 +20,21 @@ Runtime decoder switching is not validated by this acceptance record.
 Existing user preferences remain outside Git. No global hardware-decoding
 preference is forced on other GPUs by this acceptance record.
 
+## Source-based color signalling
+
+The managed MPV profile uses `target-colorspace-hint-mode=source`. With current
+MPV builds, the default `target` mode can describe an HDR-capable display and
+convert SDR into an HDR output. Source mode describes the content instead, as
+required by [Hyprland auto-HDR](https://wiki.hypr.land/Configuring/Basics/Variables/).
+See also the [MPV color hint documentation](https://mpv.io/manual/stable/#options-target-colorspace-hint-mode).
+An existing conflicting setting is reported for review rather than overwritten.
+This setting does not force HDR or change decoder or controller preferences.
+
+An isolated fresh-client test at 1920x1080/60 with an SDR BT.709 source passed
+autostart and keyboard pause/resume after this change. No DRM hotplug or monitor
+removal events occurred during the observed test. Integrated launcher/gamepad
+and 4K-output startup checks remain pending; HDR playback is not yet validated.
+
 ## Verified SDR sample
 
 | Measurement | Result |
@@ -64,11 +79,11 @@ Do not commit server addresses, media paths, authentication or personal titles.
 
 ## Leaving Jellyfin during a film
 
-Act I's `act_i_playback_policy.lua` observes the MPV window's focus. A real selected
-video track pauses when the window loses focus, including switching to Home or
-another app workspace. Returning never resumes playback automatically; the user
+Act I's session monitor reports the active Hyprland workspace to
+`act_i_playback_policy.lua`. A real selected video track pauses when leaving
+Jellyfin's workspace for Home or another app workspace. Returning never resumes playback automatically; the user
 chooses Resume. An already-paused film remains paused. Video loaded while the
-window is already in the background is also paused on the file-loaded event.
+Jellyfin workspace is already in the background is also paused on the file-loaded event.
 
 Idle library backgrounds, still images, album art and audio-only playback are
 excluded. Their broader background-audio policy remains separate work. The
@@ -77,7 +92,7 @@ claim about multi-monitor focus or remote Moonlight game pausing.
 
 The adapter installs this managed MPV script alongside the input guard, without
 changing the client's saved decoder preference or face-button mappings. Unit
-checks cover focus loss, no automatic resume, already-paused content and the
+checks cover workspace departure, no automatic resume, already-paused content and the
 idle/audio/image exclusions.
 
 The owner physically verified pause on switching to Home, continued pause with

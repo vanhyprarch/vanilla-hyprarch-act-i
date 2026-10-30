@@ -18,7 +18,7 @@ class ProfileTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             profile = prepare_profile(APP.flatpak_id, directory)
             conf = profile / 'conf.json'
-            credentials = profile / 'cred.json'
+            credentials = profile / 'users.json'
             # Deliberately preserve the opposite face-button preference too.
             content = json.dumps({'gamepad_swap_confirm': True, 'fullscreen': False})
             conf.write_text(content)
@@ -34,6 +34,31 @@ class ProfileTests(unittest.TestCase):
             self.assertNotIn('gamepad_swap_confirm', settings)
             self.assertTrue(settings['input_gamepad'])
             self.assertEqual((profile / 'conf.json').stat().st_mode & 0o777, 0o600)
+
+    def test_source_color_hint_is_added_once_without_replacing_custom_options(self):
+        with tempfile.TemporaryDirectory() as directory:
+            profile = prepare_profile(APP.flatpak_id, directory)
+            mpv = profile / 'mpv.conf'
+            original = mpv.read_text().replace('target-colorspace-hint-mode=source\n', '')
+            original += '# User audio preference\nao=pipewire\n'
+            mpv.write_text(original)
+            prepare_profile(APP.flatpak_id, directory)
+            configured = mpv.read_text()
+            self.assertTrue(configured.startswith(original))
+            self.assertEqual(configured.count('target-colorspace-hint-mode=source'), 1)
+            prepare_profile(APP.flatpak_id, directory)
+            self.assertEqual(mpv.read_text(), configured)
+
+    def test_conflicting_color_mode_requires_review_without_overwriting_profile(self):
+        with tempfile.TemporaryDirectory() as directory:
+            profile = prepare_profile(APP.flatpak_id, directory)
+            mpv = profile / 'mpv.conf'
+            custom = mpv.read_text().replace('target-colorspace-hint-mode=source',
+                                             'target-colorspace-hint-mode = target')
+            mpv.write_text(custom)
+            with self.assertRaisesRegex(ValueError, 'color hint mode must be reviewed'):
+                prepare_profile(APP.flatpak_id, directory)
+            self.assertEqual(mpv.read_text(), custom)
 
     def test_custom_mpv_profile_is_never_replaced(self):
         with tempfile.TemporaryDirectory() as directory:

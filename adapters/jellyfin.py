@@ -41,13 +41,26 @@ def prepare_profile(flatpak_id, home=None):
     existing = [line for line in text.splitlines() if line.strip().startswith("input-ipc-server=")]
     if existing and existing[-1] != setting:
         raise ValueError("Existing MPV IPC server must be reviewed before enabling Act I routing")
+    # Newer MPV defaults describe the target display, which can request HDR
+    # even for SDR media. Hyprland auto-HDR needs the source metadata instead.
+    color_key = "target-colorspace-hint-mode"
+    color_modes = [line.partition("=")[2].strip() for line in text.splitlines()
+                   if line.partition("=")[0].strip() == color_key and "=" in line]
+    if any(value != "source" for value in color_modes):
+        raise ValueError("Existing MPV color hint mode must be reviewed; Act I needs "
+                         + color_key + "=source")
     scripts = folder / "scripts"
     scripts.mkdir(exist_ok=True, mode=0o700)
     for name in ("act_i_input_guard.lua", "act_i_playback_policy.lua"):
         source = Path(__file__).parent / "mpv" / name
         shutil.copyfile(source, scripts / name)
+    additions = []
     if not existing:
-        mpv.write_text(text.rstrip() + "\n" + setting + "\n")
+        additions.append(setting)
+    if not color_modes:
+        additions.append(color_key + "=source")
+    if additions:
+        mpv.write_text(text.rstrip() + "\n" + "\n".join(additions) + "\n")
     return folder
 
 
