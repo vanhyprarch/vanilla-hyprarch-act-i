@@ -15,8 +15,6 @@ hl.window_rule({
     name = "act-i-jellyfin",
     match = { class = "^org\\.vanhyprarch\\.acti\\.jellyfin$" },
     workspace = "2",
-    fullscreen_state = "2 0",
-    suppress_event = "fullscreen",
 })
 hl.bind("SUPER + SHIFT + E", hl.dsp.exit())
 hl.bind("SUPER + H", hl.dsp.focus({ workspace = 1 }))

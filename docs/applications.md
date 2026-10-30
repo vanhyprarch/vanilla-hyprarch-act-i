@@ -45,10 +45,11 @@ adapter. The profile also receives a managed MPV input guard and private local
 IPC option; a conflicting existing IPC server is reported instead of overwritten. MPV's
 `wayland-app-id=org.vanhyprarch.acti.jellyfin` identifies the managed window.
 A conflicting existing MPV profile is reported instead of being overwritten.
-Hyprland places that class on workspace 2 and keeps its compositor state
-fullscreen independently of the client's window-mode requests (internal 2,
-client 0), so browser transitions cannot drop the kiosk fullscreen state. The initial
-Moonlight tile remains setup feedback while Sunshine testing is deferred.
+Hyprland places that class on workspace 2. Jellyfin manages its native browser
+and playback fullscreen state; Act I focuses the existing window without
+suppressing or overriding the client's fullscreen requests. New profiles enable
+both fullscreen preferences. The initial Moonlight tile remains setup feedback
+while Sunshine testing is deferred.
 
 Quickshell and the application helper communicate over private process pipes;
 ordinary navigation is still routed only to the focused Home. Closing/reloading

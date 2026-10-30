@@ -69,7 +69,7 @@ class LifecycleTests(unittest.TestCase):
         session.seen_window = True
         self.assertFalse(session.refresh())
 
-    def test_reentry_focuses_workspace_and_restores_existing_fullscreen(self):
+    def test_reentry_focuses_window_without_overriding_native_fullscreen(self):
         hypr = Mock()
         hypr.query.return_value = [{'class': WINDOW_CLASS, 'mapped': True,
                                     'fullscreen': 0, 'address': '0x123'}]
@@ -77,8 +77,9 @@ class LifecycleTests(unittest.TestCase):
         expressions = [c.args[0] for c in hypr.dispatch.call_args_list]
         self.assertIn('workspace=2', expressions[0])
         self.assertIn('address:0x123', expressions[1])
-        self.assertIn('action="set"', expressions[1])
-        self.assertIn('internal=2,client=0', expressions[1])
+        self.assertEqual(len(expressions), 2)
+        self.assertTrue(expressions[1].startswith('hl.dsp.focus('))
+        self.assertNotIn('fullscreen', ''.join(expressions))
 
 
 if __name__ == '__main__':

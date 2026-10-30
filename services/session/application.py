@@ -45,11 +45,6 @@ class ApplicationSession:
 
     def focus(self):
         self.hyprland.dispatch(f"hl.dsp.focus({{workspace={self.app.workspace}}})")
-        for window in self.windows():
-            if window.get("fullscreen") != 2:
-                selector = json.dumps("address:" + window["address"])
-                self.hyprland.dispatch("hl.dsp.window.fullscreen_state({window=" + selector
-                                       + ',action="set",internal=2,client=0})')
         windows = self.windows()
         if windows:
             selector = json.dumps("address:" + windows[0]["address"])
