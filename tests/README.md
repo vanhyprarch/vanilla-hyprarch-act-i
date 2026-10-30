@@ -29,3 +29,8 @@ manual-only resume, already-paused content and idle/audio/image exclusions.
 Close-action tests cover catalog-independent graceful closing, pinned targeting,
 Home protection, no target, cardinal-only Down clicks and no held auto-repeat.
 The Qt fixture supports manual compositor-level acceptance outside Jellyfin.
+
+Profile checks cover source-based color signalling, idempotence, preservation of
+existing preferences/authentication and custom renderer options, and rejection of conflicting MPV
+settings. Workspace monitor checks cover transient IPC failure and stream EOF
+recovery, plus playback-policy delivery before optional focus queries.

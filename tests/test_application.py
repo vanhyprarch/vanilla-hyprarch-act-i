@@ -40,7 +40,8 @@ class ProfileTests(unittest.TestCase):
             profile = prepare_profile(APP.flatpak_id, directory)
             mpv = profile / 'mpv.conf'
             original = mpv.read_text().replace('target-colorspace-hint-mode=source\n', '')
-            original += '# User audio preference\nao=pipewire\n'
+            original += ('# User preferences\nao=pipewire\n'
+                         'gpu-api=opengl\ngpu-context=wayland\n')
             mpv.write_text(original)
             prepare_profile(APP.flatpak_id, directory)
             configured = mpv.read_text()
